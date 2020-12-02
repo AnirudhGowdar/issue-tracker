@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+<li class="nav-item mr-3">
+    <a href="javascript:{document.getElementById('logout').submit()}" class="nav-link">
+        <i class="fas fa-sign-out-alt"></i> Logout
+    </a>
+    <form action="{% url 'logout' %}" method="POST" id="logout">
+        {% csrf_token %}
+        <input type="hidden">
+    </form>
+</li>
+{% block content %}
+<div class="card text-center">
+    <div class="card-body" class="btn-block">
+        <button type="button" class="btn btn-primary mr-4">Add Project</button>
+        <button type="button" class="btn btn-primary mr-4">View Projects</button>
+        <button type="button" class="btn btn-primary mr-4">View Tickets</button>
+    </div>
+</div>
+{% endblock %}

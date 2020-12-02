@@ -18,10 +18,11 @@
 <body class="background">
     <!-- NavBar -->
     {% include 'partials/_navbar.html' %}
+    <!-- Alerts -->
+    {% include 'partials/_alerts.html' %}
     <!-- Main Content -->
     {% block content %} {% endblock %}
-
-
+    
     <script src="{% static 'js/jquery-3.5.1.min.js' %} "></script>
     <script src="{% static 'js/bootstrap.bundle.js' %} "></script>
     <script src="{% static 'js/main.js' %} "></script>
