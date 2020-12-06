@@ -1,0 +1,14 @@
+.center-align-text {
+	text-align: center;
+}
+.logo {
+	position: relative;
+}
+.background {
+	background-image: url("../img/index.jpeg");
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+.jumbotron {
+	background: rgba(10, 8, 8, 0.4);
+}
