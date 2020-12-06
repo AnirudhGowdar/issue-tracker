@@ -11,6 +11,10 @@ class Project(models.Model):
     updated = models.DateTimeField(auto_now=True)
     developers = models.ManyToManyField(User, related_name='developers')
 
+    class Meta:
+        verbose_name = 'Project'
+        verbose_name_plural = 'Projects'
+
     def __str__(self):
         return self.title
 
@@ -18,6 +22,10 @@ class Project(models.Model):
 class TicketPriority(models.Model):
     name = models.CharField(max_length=20)
     description = models.TextField()
+
+    class Meta:
+        verbose_name = 'Ticket Priority'
+        verbose_name_plural = 'Ticket Priorities'
 
     def __str__(self):
         return self.name
@@ -27,6 +35,10 @@ class TicketStatus(models.Model):
     name = models.CharField(max_length=20)
     description = models.TextField()
 
+    class Meta:
+        verbose_name = 'Ticket Status'
+        verbose_name_plural = 'Ticket Statuses'
+
     def __str__(self):
         return self.name
 
@@ -34,6 +46,10 @@ class TicketStatus(models.Model):
 class TicketType(models.Model):
     name = models.CharField(max_length=20)
     description = models.TextField()
+
+    class Meta:
+        verbose_name = 'Ticket Type'
+        verbose_name_plural = 'Ticket Types'
 
     def __str__(self):
         return self.name
@@ -59,6 +75,10 @@ class Ticket(models.Model):
         User, on_delete=models.CASCADE, related_name='assigned_to_developer')
     archived = models.BooleanField()
 
+    class Meta:
+        verbose_name = 'Ticket'
+        verbose_name_plural = 'Tickets'
+
     def __str__(self):
         return self.title
 
@@ -71,12 +91,20 @@ class TicketAttachment(models.Model):
     attachment_url = models.URLField()
     created = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        verbose_name = 'Ticket Attachment'
+        verbose_name_plural = 'Ticket Attachments'
+
 
 class TicketComment(models.Model):
     ticket_id = models.ForeignKey(Ticket, on_delete=models.CASCADE)
     author_id = models.ForeignKey(User, on_delete=models.CASCADE)
     comment = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Ticket Comment'
+        verbose_name_plural = 'Ticket Comments'
 
     def __str__(self):
         return self.comment
@@ -88,6 +116,10 @@ class TicketHistory(models.Model):
     property = models.CharField(max_length=20)
     old_value = models.TextField()
     new_value = models.TextField()
+
+    class Meta:
+        verbose_name = 'Ticket History'
+        verbose_name_plural = 'Ticket Histories'
 
     def __str__(self):
         return str(self.ticket_id) + ' <-> ' + str(self.user_id)
@@ -103,6 +135,10 @@ class TicketNotification(models.Model):
     subject = models.CharField(max_length=30)
     body = models.TextField()
     is_read = models.BooleanField()
+
+    class Meta:
+        verbose_name = 'Ticket Notification'
+        verbose_name_plural = 'Ticket Notifications'
 
     def __str__(self):
         return self.subject
