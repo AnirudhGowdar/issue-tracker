@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'home.apps.HomeConfig',
     'accounts.apps.AccountsConfig',
+    'projects.apps.ProjectsConfig',
+    'tickets.apps.TicketsConfig',
     'rolepermissions'
 ]
 
