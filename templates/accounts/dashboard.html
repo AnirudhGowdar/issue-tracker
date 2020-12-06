@@ -10,11 +10,5 @@
     </form>
 </li>
 {% block content %}
-<div class="card text-center">
-    <div class="card-body" class="btn-block">
-        <button type="button" class="btn btn-primary mr-4">Add Project</button>
-        <button type="button" class="btn btn-primary mr-4">View Projects</button>
-        <button type="button" class="btn btn-primary mr-4">View Tickets</button>
-    </div>
-</div>
+<h3 class="font-weight-bold text-capitalize" style="padding: 2%;">Welcome, {{ user.username }}</h3>
 {% endblock %}
