@@ -1,3 +1,71 @@
 {% extends 'base.html' %}
 {% block content %}
+{% load static %}
+<body class="about">
+    <div><i>
+        <h1 class="display-4 text-dark my-4"><u>About Issue Tracker</u></h1>
+        <p class="display-4 " style="font-size: 20pt;color: black ;">
+            Issue Tracker is an application to track issues or errors in software. Issue Tracker uses a ticketing system
+             to record bugs or other issues in the software development process on a per-project basis. It implements 
+             user and role-level security to ensure only authorized users can access tickets and projects.
+        </p>
+        <p class="display-4 " style="font-size: 20pt;color: black ;">
+            The application was built using Django framework and Python with an SQLite database. Development was completed with 
+            Visual Studio Code .<br><br>
+            Bug Tracker has four roles that users can be assigned to.
+            <ul class="left-align-text" style="font-size: 20pt;color: black ;">
+                <li>End User</li>
+                <ul>
+                    <li>Create new tickets for assigned projects</li>
+                    <li>View and edit tickets they have submitted</li>
+                </ul>
+                <li>Developer</li>
+                <ul>
+                    <li>Developer can do all functions of End User</li>
+                    <li>View and edit tickets they have been assigned</li>
+                    <li>Provide solutions to the issues raised by the End User</li>
+                </ul>
+                <li>Project Manager</li>
+                <ul>
+                    <li>Project Manager can do all functions of Developer</li>
+                    <li>Create or delete projects</li>
+                    <li>Assign users to projects</li>
+                    <li>Assign a developer to a ticket</li>
+                    <li>Archive projects</li>
+                </ul>
+                <li>Admin</li>
+                <ul>   
+                    <li>Admin can do all functions of Project Manager</li>
+                    <li>Assign users to roles</li>
+                    <li>Remove Users</li>
+                </ul>
+            </ul>
+        </p>
+        <p class="display-4 " style="font-size: 20pt;color: black ;">Some properties of tickets are given below</p>
+        <ul class="left-align-text" style="font-size: 20pt;color: black ;">
+            <li>Ticket Priorites</li>
+            <ul>
+                <li>Crtical</li>
+                <li>High</li>
+                <li>Medium</li>
+                <li>Low</li>
+            </ul>
+            <li>Ticket types</li>
+            <ul>
+                <li>Error report</li>
+                <li>Service request</li>
+                <li>Feature request</li>
+            </ul>
+            <li>Ticket statuses</li>
+            <ul>
+                <li>New</li>
+                <li>Waiting for support</li>
+                <li>Waiting for customer</li>
+                <li>On hold</li>
+                <li>Resolved</li>
+            </ul>
+        </ul>
+        </i>
+    </div>
+</body>
 {% endblock %}

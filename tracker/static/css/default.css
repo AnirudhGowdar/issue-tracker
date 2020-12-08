@@ -1,14 +1,32 @@
 .center-align-text {
 	text-align: center;
 }
+.left-align-text{
+	text-align: left;
+	font-size: 3.5rem;
+  	font-weight: 300;
+	line-height: 1.2;
+	padding-left: 70pt;
+	padding-right: 70pt;
+}  
 .logo {
 	position: relative;
 }
 .background {
 	background-image: url("../img/index.jpeg");
-	background-repeat: no-repeat;
+	background-repeat:no-repeat;
 	background-size: 100%;
 }
 .jumbotron {
 	background: rgba(10, 8, 8, 0.4);
+}
+.about {
+	background-image: url("../img/logo.png");
+	background-repeat: repeat;
+	background-size: 50%;
+	font-family: 'Times New Roman', Times, serif;
+}
+.display-4{
+	padding-left: 50pt;
+	padding-right: 50pt;
 }
