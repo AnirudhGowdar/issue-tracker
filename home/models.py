@@ -6,7 +6,7 @@ class Project(models.Model):
     # Project model
     title = models.CharField(max_length=20)
     description = models.TextField()
-    archived = models.BooleanField()
+    archived = models.BooleanField(default = False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     developers = models.ManyToManyField(User, related_name='developers')

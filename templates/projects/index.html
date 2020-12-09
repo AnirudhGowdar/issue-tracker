@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<body class="about">
+    <div>
+    <h1 class="display-3 center-align-text text-dark"><i>Projects</i></h1><br><br>
+    </div>
+    <div style="margin-left: 100pt;">
+        <table style="width:800pt; column-count: ;">
+            <tr>
+            {% for s in tabledata %}
+              <td><button style="background-color: transparent;border: transparent;"><img src="{% static 'img/prologo.png'%}"/></button>
+                <figcaption><h2>{{s.title}}</h2></figcaption>
+            </td>
+              {% endfor %} 
+            </tr>         
+          </table>
+    </div>
+</body>
+  {% endblock %}
