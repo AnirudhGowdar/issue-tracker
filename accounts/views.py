@@ -12,7 +12,7 @@ def register(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Account created successfully')
-            return redirect('login')
+            return redirect('accounts:login')
     elif request.method == 'GET':
         form = forms.RegisterForm()
     return render(
@@ -32,7 +32,7 @@ def login(request):
             if user is not None:
                 auth.login(request, user)
                 messages.info(request, f"You are now logged in as {username}")
-                return redirect('dashboard')
+                return redirect('accounts:dashboard')
             else:
                 messages.error(request, "Invalid username or password.")
         else:
@@ -50,7 +50,7 @@ def logout(request):
     if request.method == 'POST':
         auth.logout(request)
         messages.success(request, 'You are now logged out')
-        return redirect('index')
+        return redirect('home:index')
 
 
 def dashboard(request):
