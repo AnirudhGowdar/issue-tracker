@@ -1,13 +1,15 @@
-from django.http import request
 from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
 from django.contrib import messages
 from . import forms
 from home.models import Project
+
 
 def Create(request):
     form = None
     if request.method == 'POST':
         form = forms.CreateProjectForm(request.POST)
+        form.instance.manager = User.objects.get(id=request.user.id)
         if form.is_valid():
             form.save()
             messages.success(request, 'Project Created Successfully')
@@ -19,6 +21,8 @@ def Create(request):
         template_name='projects/create.html',
         context={'form': form}
     )
+
+
 def index(request):
     tabledata = Project.objects.all()
-    return render(request, 'projects/index.html',{'tabledata' : tabledata})
+    return render(request, 'projects/index.html', {'tabledata': tabledata})
