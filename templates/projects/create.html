@@ -13,7 +13,7 @@
                             <i class="fas fa-user-plus"></i> Add Project</h4>
                     </div>
                     <div class="card-body">
-                        <form action="{% url 'Create' %}" method="POST" novalidate>
+                        <form action="{% url 'projects:create' %}" method="POST" novalidate>
                             {% csrf_token %}
                             {% for field in form %}
                             <div class="form-group">
@@ -22,7 +22,7 @@
                                 <div class="text-danger">{{field.errors|striptags}}</div>
                             </div>
                             {% endfor %}
-                            <input type="submit" value="Create" class="btn btn-secondary btn-block">
+                            <input type="submit" value="create" class="btn btn-secondary btn-block">
                         </form>
                     </div>
                 </div>

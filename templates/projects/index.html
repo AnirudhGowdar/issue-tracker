@@ -6,15 +6,19 @@
     <h1 class="display-3 center-align-text text-dark"><i>Projects</i></h1><br><br>
     </div>
     <div style="margin-left: 100pt;">
-        <table style="width:800pt; column-count: ;">
+        <table style="width:800pt;">
             <tr>
             {% for s in tabledata %}
-              <td><button style="background-color: transparent;border: transparent;"><img src="{% static 'img/prologo.png'%}"/></button>
+              <td>
+                <a href="{% url 'projects:details' s.pk %}"
+                <button style="background-color: transparent;border: transparent;">
+                  <img src="{% static 'img/prologo.png'%}"/>
+                </button>
                 <figcaption><h2>{{s.title}}</h2></figcaption>
-            </td>
+              </td>
               {% endfor %} 
             </tr>         
           </table>
     </div>
 </body>
-  {% endblock %}
+{% endblock %}

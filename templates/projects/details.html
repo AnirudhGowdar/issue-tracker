@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<body class="about">
+    <div>
+        <div class="div-left">
+            <h1 class="details-header">Project details</h1>
+            <hr/>
+            <dl class="row">
+                <dt class="col-sm-6 large-font-1">Title</dt>
+                <dd class="col-sm-6 large-font-1">{{project.title}}</dd>
+                <dt class="col-sm-6 large-font-1">Description</dt>
+                <dd class="col-sm-6 large-font-1">{{project.description}}</dd>
+                <dt class="col-sm-6 large-font-1">Date Created</dt>
+                <dd class="col-sm-6 large-font-1">{{project.created}}</dd>
+                <dt class="col-sm-6 large-font-1">Last Modified</dt>
+                <dd class="col-sm-6 large-font-1">{{project.updated}}</dd>
+                <dt class="col-sm-6 large-font-1">Project Manager</dt>
+                <dd class="col-sm-6 large-font-1">{{project.manager.username}}</dd>
+            </dl>
+        </div>
+    </div>
+</body>
+{% endblock %}
