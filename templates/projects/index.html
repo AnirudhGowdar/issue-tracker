@@ -3,18 +3,21 @@
 {% load static %}
 <body class="about">
     <div>
-    <h1 class="display-3 center-align-text text-dark"><i>Projects</i></h1><br><br>
+    <h1 class="display-3 center-align-text text-dark"><i>Projects</i>
+      <button type="button" class="btn btn-primary btn-lg" style= "float: right;" 
+      onclick="window.location.href='create'"> Add Project</button></h1><br><br>
     </div>
     <div style="margin-left: 100pt;">
         <table style="width:800pt;">
             <tr>
             {% for s in tabledata %}
               <td>
-                <a href="{% url 'projects:details' s.pk %}"
+                <a href="{% url 'projects:details' s.pk %}">
                 <button style="background-color: transparent;border: transparent;">
-                  <img src="{% static 'img/prologo.png'%}"/>
+                  <img src="{% static 'img/plogo.png'%}"/>
                 </button>
-                <figcaption><h2>{{s.title}}</h2></figcaption>
+                <figcaption><h2>{{s.title}}</h2></figcaption></a>
+                <a href="{% url 'projects:edit' s.pk %}">Edit</a>
               </td>
               {% endfor %} 
             </tr>         

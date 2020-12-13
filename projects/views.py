@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib import messages
 from . import forms
@@ -34,3 +34,19 @@ def details(request, project_id):
     print(project_id)
     project = Project.objects.get(pk=project_id)
     return render(request, 'projects/details.html', {'project': project})
+
+def edit(request, project_id):
+    if project_id:
+        project = get_object_or_404(Project, pk=project_id)
+
+
+    form = forms.EditProjectForm(request.POST or None, instance=project)
+    if request.POST and form.is_valid():
+        form.save()
+        messages.success(request, 'Project Edited Successfully')
+        # Save was successful, so redirect to another page
+        return redirect('projects:index')
+
+    return render(request, 'projects/edit.html', {
+        'form': form
+    })
