@@ -27,4 +27,11 @@ def create(request):
 
 def index(request):
     tickets = Ticket.objects.all()
+    print(tickets)
     return render(request, 'tickets/index.html', {'tickets': tickets})
+
+
+def details(request, ticket_id):
+    print(ticket_id)
+    ticket = Ticket.objects.get(pk=ticket_id)
+    return render(request, 'tickets/details.html', {'ticket': ticket})

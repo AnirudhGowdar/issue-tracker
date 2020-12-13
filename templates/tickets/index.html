@@ -1,8 +1,40 @@
 {% extends 'base.html' %}
+{% block content %}
+{% load static %}
 <body class="about">
     <div>
-        <h1 class="display-3 center-align-text text-dark"><i>Projects</i></h1><br><br>
+        <h1 class="display-3 center-align-text text-dark"><i>Tickets</i></h1><br><br>
     </div>
     <div>
-        <table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Type</th>
+                    <th>Project</th>
+                    <th>Date</th>
+                    <th>Priority</th>
+                    <th>Opened by</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ticket in tickets %}
+                <tr>
+                    <td>{{ticket.title}}</td>
+                    <td>{{ticket.ticket_type.name}}</td>
+                    <td>{{ticket.project_id.title}}</td>
+                    <td>{{ticket.updated}}</td>
+                    {% if ticket.ticket_priority.name %}
+                        <td>{{ticket.ticket_priority.name}}</td>
+                    {% else %}
+                        <td>Not assigned</td>
+                    {% endif %}
+                    <td>{{ticket.owner.username}}</td>
+                    <td><a href="{% url 'tickets:details' ticket.pk %}">Details</a></td>
+                </tr>
+                {% endfor %} 
+            </tbody>
+        </table>
 </body>
+{% endblock %}
