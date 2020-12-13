@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %} | Open Ticket {% endblock %}
+
+{% block content %}
+<section id="register" class="bg-light py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <div class="card">
+                    <div class="card-header bg-dark text-white">
+                        <h4>
+                            <i class="fas fa-user-plus"></i>Open a ticket</h4>
+                    </div>
+                    <div class="card-body">
+                        <form action="{% url 'tickets:create' %}" method="POST" novalidate>
+                            {% csrf_token %}
+                            {% for field in form %}
+                            <div class="form-group">
+                                <label for="{{ field.name }}">{{ field.label }}</label>
+                                {{field}}
+                                <div class="text-danger">{{field.errors|striptags}}</div>
+                            </div>
+                            {% endfor %}
+                            <input type="submit" value="create" class="btn btn-secondary btn-block">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

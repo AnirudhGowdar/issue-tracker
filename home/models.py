@@ -74,7 +74,7 @@ class Ticket(models.Model):
     owner = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='ticket_owner')
     assigned_to = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='assigned_to_developer')
+        User, on_delete=models.CASCADE, related_name='assigned_to_developer', blank=True, null=True)
     archived = models.BooleanField()
 
     class Meta:
