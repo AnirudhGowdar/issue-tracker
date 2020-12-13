@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
 from django.contrib import messages
 from . import forms
@@ -35,3 +35,19 @@ def details(request, ticket_id):
     print(ticket_id)
     ticket = Ticket.objects.get(pk=ticket_id)
     return render(request, 'tickets/details.html', {'ticket': ticket})
+
+
+def edit(request, ticket_id):
+    if ticket_id:
+        ticket = get_object_or_404(Ticket, pk=ticket_id)
+
+    form = forms.EditTicketForm(request.POST or None, instance=ticket)
+    if request.POST and form.is_valid():
+        form.save()
+        messages.success(request, 'Ticket Edited Successfully')
+        # Save was successful, so redirect to another page
+        return redirect('tickets:index')
+
+    return render(request, 'tickets/edit.html', {
+        'form': form
+    })
