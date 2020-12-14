@@ -4,16 +4,18 @@
 <body class="about">
     <div>
         <div class="div-left">
-            <h1 class="details-header">Your details</h1>
+            <h1 class="details-header">Your Profile</h1>
             <hr/>
             <dl class="row">
-                <dt class="col-sm-6 large-font-1">Name</dt>
-                <dd class="col-sm-6 large-font-1">{{userdata.first_name}} {{userdata.last_name}}</dd>
-                <dt class="col-sm-6 large-font-1">E-mail</dt>
-                <dd class="col-sm-6 large-font-1">{{userdata.email}}</dd>
-                <button type="button" class="btn btn-outline-secondary"style = "margin-left:100pt; "><a href="{% url 'accounts:edit_profile' userdata.pk %}"><b>Edit Profile</b></a></button>
-                <button type="button" class="btn btn-outline-secondary" style="margin-left: 100pt;"><a href="{% url 'accounts:change_password' %}"><b>Change Password</b></a></button>
+                <dt class="col-sm-3 large-font-1">Username</dt>
+                <dd class="col-sm-9 large-font-1">{{userdata.username}}</dd>
+                <dt class="col-sm-3 large-font-1">Name</dt>
+                <dd class="col-sm-9 large-font-1">{{userdata.first_name}} {{userdata.last_name}}</dd>
+                <dt class="col-sm-3 large-font-1">E-mail</dt>
+                <dd class="col-sm-9 large-font-1">{{userdata.email}}</dd>
             </dl>
+            <button type="button" class="btn btn-outline-secondary"style = "margin-left:10pt; "><a href="{% url 'accounts:edit_profile' userdata.pk %}"><b>Edit Profile</b></a></button>
+            <button type="button" class="btn btn-outline-secondary" style="margin-left: 100pt;"><a href="{% url 'accounts:change_password' %}"><b>Change Password</b></a></button>
         </div>
     </div>
 </body>

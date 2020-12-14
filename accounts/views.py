@@ -24,7 +24,10 @@ def register(request):
 
 
 def login(request):
-    if request.method == 'POST':
+    if request.user.is_authenticated:
+        messages.error(request, 'You are already logged in')
+        return redirect('accounts:dashboard')
+    elif request.method == 'POST':
         form = forms.LoginForm(request=request, data=request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')
@@ -59,7 +62,8 @@ def dashboard(request):
     if request.user.is_authenticated:
         return render(request, 'accounts/dashboard.html')
     else:
-        return render(request, 'accounts/error.html')
+        messages.error(request, 'You need to login to access the dashboard')
+        return redirect('accounts:login')
 
 
 def profile(request, user_id):
