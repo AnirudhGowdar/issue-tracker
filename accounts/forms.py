@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm
 from django.core.validators import RegexValidator
 from django.forms import ModelForm
 
@@ -104,8 +104,10 @@ class LoginForm(AuthenticationForm):
             'incomplete': 'Please enter a valid password.'
         }
     )
+
+
 class EditProfileForm(ModelForm):
-    
+
     first_name = forms.CharField(
         max_length=20,
         min_length=3,
@@ -149,9 +151,36 @@ class EditProfileForm(ModelForm):
         widget=forms.EmailInput(attrs=dict(attrs_dict, maxlength=75)),
         label='Email'
     )
+
     class Meta:
         model = User
         fields = [
             'first_name', 'last_name', 'username',
             'email'
         ]
+
+
+class ChangePasswordForm(PasswordChangeForm):
+
+    old_password = forms.CharField(
+        widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
+        label='Old Password',
+        error_messages={
+            'incomplete': 'Please enter a valid password.'
+        }
+    )
+    new_password1 = forms.CharField(
+        widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
+        label='New Password',
+        error_messages={
+            'incomplete': 'Please enter a valid password.'
+        }
+    )
+
+    new_password2 = forms.CharField(
+        widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
+        label='Confirm Password',
+        error_messages={
+            'incomplete': 'Please enter a valid password.'
+        }
+    )

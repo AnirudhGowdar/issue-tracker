@@ -1,10 +1,9 @@
 from django.http import request
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages, auth
-from django.contrib.auth import authenticate,update_session_auth_hash
+from django.contrib.auth import authenticate, update_session_auth_hash
 from . import forms
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import PasswordChangeForm
 
 
 def register(request):
@@ -33,7 +32,8 @@ def login(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 auth.login(request, user)
-                messages.info(request, f"You are now logged in as {username}")
+                messages.success(
+                    request, f"You are now logged in as {username}")
                 return redirect('accounts:dashboard')
             else:
                 messages.error(request, "Invalid username or password.")
@@ -61,14 +61,15 @@ def dashboard(request):
     else:
         return render(request, 'accounts/error.html')
 
+
 def profile(request, user_id):
     userdata = User.objects.get(pk=user_id)
     return render(request, 'accounts/profile.html', {'userdata': userdata})
 
+
 def edit_profile(request, user_id):
     if user_id:
         user = get_object_or_404(User, pk=user_id)
-
 
     form = forms.EditProfileForm(request.POST or None, instance=user)
     if request.POST and form.is_valid():
@@ -80,18 +81,20 @@ def edit_profile(request, user_id):
     return render(request, 'accounts/edit_profile.html', {
         'form': form
     })
+
+
 def change_password(request):
     if request.method == 'POST':
-        form = PasswordChangeForm(request.user, request.POST)
+        form = forms.ChangePasswordForm(request.user, request.POST)
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)  # Important!
-            messages.success(request, 'Your password was successfully updated!')
+            messages.success(
+                request, 'Your password was successfully updated!')
+            auth.logout(request)
             return redirect('accounts:login')
-        else:
-            messages.error(request, 'Please correct the error below.')
     else:
-        form = PasswordChangeForm(request.user)
+        form = forms.ChangePasswordForm(request.user)
     return render(request, 'accounts/change_password.html', {
         'form': form
     })
