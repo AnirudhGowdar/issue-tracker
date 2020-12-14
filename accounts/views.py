@@ -1,8 +1,10 @@
 from django.http import request
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages, auth
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate,update_session_auth_hash
 from . import forms
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import PasswordChangeForm
 
 
 def register(request):
@@ -58,3 +60,38 @@ def dashboard(request):
         return render(request, 'accounts/dashboard.html')
     else:
         return render(request, 'accounts/error.html')
+
+def profile(request, user_id):
+    userdata = User.objects.get(pk=user_id)
+    return render(request, 'accounts/profile.html', {'userdata': userdata})
+
+def edit_profile(request, user_id):
+    if user_id:
+        user = get_object_or_404(User, pk=user_id)
+
+
+    form = forms.EditProfileForm(request.POST or None, instance=user)
+    if request.POST and form.is_valid():
+        form.save()
+        messages.success(request, 'Profile Updated Successfully')
+        # Save was successful, so redirect to another page
+        return redirect('accounts:dashboard')
+
+    return render(request, 'accounts/edit_profile.html', {
+        'form': form
+    })
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('accounts:login')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'accounts/change_password.html', {
+        'form': form
+    })

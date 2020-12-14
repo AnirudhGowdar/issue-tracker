@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.core.validators import RegexValidator
+from django.forms import ModelForm
 
 attrs_dict = {'class': 'required form-control'}
 
@@ -103,3 +104,54 @@ class LoginForm(AuthenticationForm):
             'incomplete': 'Please enter a valid password.'
         }
     )
+class EditProfileForm(ModelForm):
+    
+    first_name = forms.CharField(
+        max_length=20,
+        min_length=3,
+        widget=forms.TextInput(attrs=attrs_dict),
+        validators=[
+            RegexValidator(
+                regex='^[a-zA-Z]*$',
+                message='Invalid characters in first name',
+                code='invalid_first_name'
+            ),
+        ]
+    )
+
+    last_name = forms.CharField(
+        max_length=20,
+        min_length=3,
+        widget=forms.TextInput(attrs=attrs_dict),
+        validators=[
+            RegexValidator(
+                regex='^[a-zA-Z]*$',
+                message='Invalid characters in last name',
+                code='invalid_last_name'
+            ),
+        ]
+    )
+
+    username = forms.CharField(
+        max_length=20,
+        min_length=6,
+        widget=forms.TextInput(attrs=attrs_dict),
+        validators=[
+            RegexValidator(
+                regex='^[a-zA-Z0-9]*$',
+                message='Username must be Alphanumeric',
+                code='invalid_username'
+            ),
+        ]
+    )
+
+    email = forms.EmailField(
+        widget=forms.EmailInput(attrs=dict(attrs_dict, maxlength=75)),
+        label='Email'
+    )
+    class Meta:
+        model = User
+        fields = [
+            'first_name', 'last_name', 'username',
+            'email'
+        ]
