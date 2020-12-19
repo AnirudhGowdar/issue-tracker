@@ -38,6 +38,7 @@ def details(request, ticket_id):
 
 
 def edit(request, ticket_id):
+    ticket = None
     if ticket_id:
         ticket = get_object_or_404(Ticket, pk=ticket_id)
 
