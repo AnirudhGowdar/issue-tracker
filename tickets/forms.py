@@ -46,22 +46,26 @@ class EditTicketForm(ModelForm):
         self.fields['project_id'] = forms.ModelChoiceField(
             queryset=Project.objects.all(),
             widget=forms.Select(
-                attrs={'class': 'required form-control custom-select'})
+                attrs={'class': 'required form-control custom-select'}
+            )
         )
         self.fields['ticket_type'] = forms.ModelChoiceField(
             queryset=TicketType.objects.all(),
             widget=forms.Select(
-                attrs={'class': 'required form-control custom-select'})
+                attrs={'class': 'required form-control custom-select'}
+            )
         )
         self.fields['ticket_priority'] = forms.ModelChoiceField(
             queryset=TicketPriority.objects.all(),
             widget=forms.Select(
-                attrs={'class': 'required form-control custom-select'})
+                attrs={'class': 'required form-control custom-select'}
+            )
         )
         self.fields['ticket_status'] = forms.ModelChoiceField(
             queryset=TicketStatus.objects.all(),
             widget=forms.Select(
-                attrs={'class': 'required form-control custom-select'})
+                attrs={'class': 'required form-control custom-select'}
+            )
         )
 
     title = forms.CharField(
