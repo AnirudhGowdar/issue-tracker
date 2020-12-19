@@ -18,6 +18,16 @@
                 <dt class="col-sm-6 large-font-1">Project Manager</dt>
                 <dd class="col-sm-6 large-font-1">{{project.manager.username}}</dd>
             </dl>
+            <hr/>
+            <h3>Project Developers Team</h3>
+            <ul class="list-group">
+            {% if project.developers.all.count == 0 %}
+            <p>No developers assigned</p>
+            {% endif %}
+            {% for developer in project.developers.all %}
+                <li class="list-group-item">{{ developer.username }}</li>
+            {% endfor %}
+            </ul>
         </div>
     </div>
 </body>
