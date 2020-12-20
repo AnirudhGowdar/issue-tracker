@@ -10,7 +10,7 @@ class CreateTicketForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(CreateTicketForm, self).__init__(*args, **kwargs)
-        self.fields['project_id'] = forms.ModelChoiceField(
+        self.fields['project'] = forms.ModelChoiceField(
             queryset=Project.objects.all(),
             widget=forms.Select(
                 attrs={'class': 'required form-control custom-select'})
@@ -35,7 +35,7 @@ class CreateTicketForm(ModelForm):
     class Meta:
         model = Ticket
         fields = [
-            'title', 'description', 'project_id', 'ticket_type',
+            'title', 'description', 'project', 'ticket_type',
         ]
 
 
@@ -43,7 +43,7 @@ class EditTicketForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(EditTicketForm, self).__init__(*args, **kwargs)
-        self.fields['project_id'] = forms.ModelChoiceField(
+        self.fields['project'] = forms.ModelChoiceField(
             queryset=Project.objects.all(),
             widget=forms.Select(
                 attrs={'class': 'required form-control custom-select'}
@@ -82,5 +82,5 @@ class EditTicketForm(ModelForm):
     class Meta:
         model = Ticket
         fields = [
-            'title', 'description', 'project_id', 'ticket_type', 'ticket_priority', 'ticket_status'
+            'title', 'description', 'project', 'ticket_type', 'ticket_priority', 'ticket_status'
         ]

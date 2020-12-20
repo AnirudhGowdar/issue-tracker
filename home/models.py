@@ -69,7 +69,7 @@ class Ticket(models.Model):
     description = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
     # TODO: change this to soft delete
     owner = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='ticket_owner')
