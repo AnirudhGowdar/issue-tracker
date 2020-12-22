@@ -1,5 +1,5 @@
+from django.contrib.auth.models import User
 from django.forms import ModelForm
-from django.forms.widgets import Select
 from home.models import Project, Ticket, TicketPriority, TicketStatus, TicketType
 from django import forms
 
@@ -83,4 +83,22 @@ class EditTicketForm(ModelForm):
         model = Ticket
         fields = [
             'title', 'description', 'project', 'ticket_type', 'ticket_priority', 'ticket_status'
+        ]
+
+
+class AssignDeveloperForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(AssignDeveloperForm, self).__init__(*args, **kwargs)
+        print(self.instance)
+        self.fields['assigned_to'] = forms.ModelChoiceField(
+            queryset=User.objects.all(),
+            widget=forms.Select(
+                attrs={'class': 'required form-control custom-select'}
+            )
+        )
+
+    class Meta:
+        model = Ticket
+        fields = [
+            'assigned_to'
         ]

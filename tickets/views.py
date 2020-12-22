@@ -52,3 +52,21 @@ def edit(request, ticket_id):
     return render(request, 'tickets/edit.html', {
         'form': form
     })
+
+
+def assign(request, ticket_id):
+    ticket = None
+    if ticket_id:
+        ticket = get_object_or_404(Ticket, pk=ticket_id)
+
+    ticket.ticket_status = TicketStatus.objects.get(name='Waiting for support')
+    form = forms.AssignDeveloperForm(request.POST or None, instance=ticket)
+    if request.POST and form.is_valid():
+        form.save()
+        messages.success(request, 'Developer Assigned Successfully')
+        # Save was successful, so redirect to another page
+        return redirect('tickets:index')
+
+    return render(request, 'tickets/assign.html', {
+        'form': form
+    })
