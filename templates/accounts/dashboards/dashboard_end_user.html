@@ -10,6 +10,45 @@
     </form>
 </li>
 {% block content %}
-<h3 class="font-weight-bold text-capitalize" style="padding: 2%;">Welcome, {{ user.username }}</h3>
-<p>End User</p>
+<button type="button" class="btn btn-primary btn-lg" style= "float: right;" 
+      onclick="window.location.href='../tickets/create'"> Raise Ticket</button>
+<h1 class="font-weight-bold text-capitalize" style="padding: 2%;">Welcome  {{ user.username }}</h1>
+
+<h3 class="font-weight-bold text-capitalize" style="padding-left:2%;padding-right: 2%">Your Tickets</h3>
+<div style="padding-left:2%;padding-right: 2%">
+    <table class=" table">
+        <thead class="table-primary">
+            <tr>
+                <th>Title</th>
+                <th>Type</th>
+                <th>Project</th>
+                <th>Date</th>
+                <th>Priority</th>
+                <th>Opened by</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ticket in tickets %}
+            {% if ticket.owner.username == user.username %}
+            <tr>
+                <td>{{ticket.title}}</td>
+                <td>{{ticket.ticket_type.name}}</td>
+                <td>{{ticket.project.title}}</td>
+                <td>{{ticket.updated}}</td>
+                {% if ticket.ticket_priority.name %}
+                    <td>{{ticket.ticket_priority.name}}</td>
+                {% else %}
+                    <td>Not assigned</td>
+                {% endif %}
+                <td>{{ticket.owner.username}}</td>
+                <td>{{ticket.ticket_status.name}}</td>
+                <td><a href="{% url 'tickets:details' ticket.pk %}">Details</a></td>
+            </tr>
+            {% endif %}
+            {% endfor %} 
+        </tbody>
+    </table>
+    </div>
 {% endblock %}

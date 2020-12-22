@@ -4,6 +4,7 @@ from django.contrib import messages, auth
 from django.contrib.auth import authenticate, update_session_auth_hash
 from . import forms
 from django.contrib.auth.models import Group, User
+from home.models import Project,Ticket
 
 
 def register(request):
@@ -66,10 +67,13 @@ def dashboard(request):
         if request.user.groups.filter(name='project_managers').exists():
             return render(request, 'accounts/dashboards/dashboard_project_managers.html')
         elif request.user.groups.filter(name='developers').exists():
-            return render(request, 'accounts/dashboards/dashboard_developer.html')
+            tickets=Ticket.objects.all()
+            project=Project.objects.all()
+            return render(request, 'accounts/dashboards/dashboard_developer.html', {'tickets': tickets , 'project': project})
         elif request.user.is_superuser:
             return render(request, 'accounts/dashboards/dashboard_admin.html')
-        return render(request, 'accounts/dashboards/dashboard_end_user.html')
+        tickets = Ticket.objects.all()
+        return render(request, 'accounts/dashboards/dashboard_end_user.html', {'tickets': tickets})
     else:
         messages.error(request, 'You need to login to access the dashboard')
         return redirect('accounts:login')

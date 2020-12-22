@@ -15,7 +15,7 @@ def create(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Ticket has been opened')
-            return redirect('tickets:index')
+            return redirect('home:index')
     elif request.method == 'GET':
         form = forms.CreateTicketForm()
     return render(
