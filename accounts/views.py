@@ -65,13 +65,17 @@ def logout(request):
 def dashboard(request):
     if request.user.is_authenticated:
         if request.user.groups.filter(name='project_managers').exists():
-            return render(request, 'accounts/dashboards/dashboard_project_managers.html')
+            tickets=Ticket.objects.all()
+            project=Project.objects.all()
+            return render(request, 'accounts/dashboards/dashboard_manager.html', {'tickets': tickets , 'project': project})
         elif request.user.groups.filter(name='developers').exists():
             tickets=Ticket.objects.all()
             project=Project.objects.all()
             return render(request, 'accounts/dashboards/dashboard_developer.html', {'tickets': tickets , 'project': project})
         elif request.user.is_superuser:
-            return render(request, 'accounts/dashboards/dashboard_admin.html')
+            tickets=Ticket.objects.all()
+            project=Project.objects.all()
+            return render(request, 'accounts/dashboards/dashboard_admin.html', {'tickets': tickets , 'project': project})
         tickets = Ticket.objects.all()
         return render(request, 'accounts/dashboards/dashboard_end_user.html', {'tickets': tickets})
     else:

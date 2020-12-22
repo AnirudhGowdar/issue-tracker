@@ -10,6 +10,85 @@
     </form>
 </li>
 {% block content %}
-<h3 class="font-weight-bold text-capitalize" style="padding: 2%;">Welcome, {{ user.username }}</h3>
+<button type="button" class="btn btn-primary btn-lg" style= "float: right;" 
+      onclick="window.location.href='../tickets/create'"> Raise Ticket</button>
+<h1 class="font-weight-bold text-capitalize" style="padding: 2%;">Welcome  {{ user.username }}</h1>
+<table class="table">
+    <tr><td>
+<div class="card border-primary mb-3" style="max-width: 40rem;padding-left: 1%;">
+    <div class="card-header" style="font-size: 30pt;">Your Tickets</div>
+    <div class="card-body">
+      <div style="padding-left:2%;padding-right: 2%">
+        <table class=" table ">
+            <thead class="table-primary">
+                <tr>
+                    <th>Title</th>
+                    <th>Project</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ticket in tickets %}
+                {% if ticket.owner.username == user.username %}
+                <tr>
+                    <td>{{ticket.title}}</td>
+                    <td>{{ticket.project.title}}</td>
+                    <td>{{ticket.ticket_status.name}}</td>
+                    <td><a href="{% url 'tickets:details' ticket.pk %}">Details</a></td>
+                </tr>
+                {% endif %}
+                {% endfor %} 
+            </tbody>
+        </table>
+        </div>
+    </div>
+  </div>
+  </td><td>
+  <div class="card border-primary mb-3" style="max-width: 40rem;padding-left: 1%;">
+    <div class="card-header" style="font-size: 30pt;">Recent Tickets</div>
+    <div class="card-body">
+      <div style="padding-left:2%;padding-right: 2%">
+        <table class=" table" >
+            <thead class="table-primary">
+                <tr>
+                    <th>Title</th>
+                    <th>Project</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ticket in tickets %}
+                {% if ticket.ticket_status_id == 1 %}
+                <tr>
+                    <td>{{ticket.title}}</td>
+                    <td>{{ticket.project.title}}</td>
+                    <td>{{ticket.ticket_status.name}}</td>
+                    <td><a href="{% url 'tickets:details' ticket.pk %}">Details</a></td>
+                </tr>
+                {% endif %}
+                {% endfor %} 
+            </tbody>
+        </table>
+        </div>
+    </div>
+  </div></td></tr></table>
+  <h1 class="font-weight-bold text-capitalize" style="padding-left:2%;padding-right: 2%">Your Projects</h1>
+  <div style="margin-left: 100pt;">
+    <table style="width:800pt;">
+        <tr>
+        {% for s in project %}
+          <td>
+            <a href="{% url 'projects:details' s.pk %}">
+            <button style="background-color: transparent;border: transparent;">
+              <img src="{% static 'img/plogo.png'%}"/>
+            </button>
+            <figcaption><h2>{{s.title}}</h2></figcaption></a>
+          </td>
+          {% endfor %} 
+        </tr>         
+      </table>
+</div>
 <p>Admin</p>
 {% endblock %}

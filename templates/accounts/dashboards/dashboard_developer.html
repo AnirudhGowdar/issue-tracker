@@ -19,7 +19,7 @@
     <div class="card-header" style="font-size: 30pt;">Your Tickets</div>
     <div class="card-body">
       <div style="padding-left:2%;padding-right: 2%">
-        <table class=" table " style="overflow-y: scroll;">
+        <table class=" table ">
             <thead class="table-primary">
                 <tr>
                     <th>Title</th>
@@ -49,7 +49,7 @@
     <div class="card-header" style="font-size: 30pt;">Assigned Tickets</div>
     <div class="card-body">
       <div style="padding-left:2%;padding-right: 2%">
-        <table class=" table" style="">
+        <table class=" table" >
             <thead class="table-primary">
                 <tr>
                     <th>Title</th>
@@ -74,5 +74,25 @@
         </div>
     </div>
   </div></td></tr></table>
+  <h1 class="font-weight-bold text-capitalize" style="padding-left:2%;padding-right: 2%">Your Projects</h1>
+  <div style="margin-left: 100pt;">
+    <table style="width:800pt;">
+        <tr>
+        {% for s in project %}
+        {% for developer in s.developers.all %}
+        {% if developer.username == user.username %}
+          <td>
+            <a href="{% url 'projects:details' s.pk %}">
+            <button style="background-color: transparent;border: transparent;">
+              <img src="{% static 'img/plogo.png'%}"/>
+            </button>
+            <figcaption><h2>{{s.title}}</h2></figcaption></a>
+          </td>
+          {% endif %}
+          {% endfor %}
+          {% endfor %} 
+        </tr>         
+      </table>
+</div>
 <p>Developer</p>
 {% endblock %}
