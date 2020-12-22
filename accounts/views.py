@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages, auth
 from django.contrib.auth import authenticate, update_session_auth_hash
 from . import forms
-from django.contrib.auth.models import User
+from django.contrib.auth.models import Group, User
 
 
 def register(request):
@@ -11,7 +11,10 @@ def register(request):
     if request.method == 'POST':
         form = forms.RegisterForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            end_user_group = Group.objects.get(name='end_users')
+            user.groups.add(end_user_group)
+            print(user.groups.all())
             messages.success(request, 'Account created successfully')
             return redirect('accounts:login')
     elif request.method == 'GET':
@@ -60,7 +63,13 @@ def logout(request):
 
 def dashboard(request):
     if request.user.is_authenticated:
-        return render(request, 'accounts/dashboard.html')
+        if request.user.groups.filter(name='project_managers').exists():
+            return render(request, 'accounts/dashboards/dashboard_project_managers.html')
+        elif request.user.groups.filter(name='developers').exists():
+            return render(request, 'accounts/dashboards/dashboard_developer.html')
+        elif request.user.is_superuser:
+            return render(request, 'accounts/dashboards/dashboard_admin.html')
+        return render(request, 'accounts/dashboards/dashboard_end_user.html')
     else:
         messages.error(request, 'You need to login to access the dashboard')
         return redirect('accounts:login')
@@ -72,6 +81,7 @@ def profile(request, user_id):
 
 
 def edit_profile(request, user_id):
+    user = None
     if user_id:
         user = get_object_or_404(User, pk=user_id)
 
