@@ -1,5 +1,20 @@
+import os
 from django.db import models
 from django.contrib.auth.models import User
+import uuid
+
+
+def user_directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
+    return 'tickets/project_{0}/{1}/{2}'.format(instance.project.id, instance.uuid, filename)
+
+
+def create_path(instance, filename):
+    return os.path.join(
+        instance.author.username,
+        instance.file_path,
+        filename
+    )
 
 
 class Project(models.Model):
@@ -59,6 +74,7 @@ class TicketType(models.Model):
 
 class Ticket(models.Model):
     # Represents issues raised
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     ticket_type = models.ForeignKey(
         TicketType, on_delete=models.SET_NULL, null=True)
     ticket_priority = models.ForeignKey(
@@ -76,6 +92,7 @@ class Ticket(models.Model):
     assigned_to = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='assigned_to_developer', blank=True, null=True)
     archived = models.BooleanField()
+    attachment = models.FileField(upload_to=user_directory_path)
 
     class Meta:
         verbose_name = 'Ticket'
@@ -83,19 +100,6 @@ class Ticket(models.Model):
 
     def __str__(self):
         return self.title
-
-
-class TicketAttachment(models.Model):
-    ticket_id = models.ForeignKey(Ticket, on_delete=models.CASCADE)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    title = models.CharField(max_length=20)
-    description = models.TextField()
-    attachment_url = models.URLField()
-    created = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        verbose_name = 'Ticket Attachment'
-        verbose_name_plural = 'Ticket Attachments'
 
 
 class TicketComment(models.Model):

@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404, render, redirect
+from django.http.response import HttpResponseForbidden
 from django.contrib.auth.models import User
 from django.contrib import messages
 from . import forms
@@ -10,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 def create(request):
     form = None
     if request.method == 'POST':
-        form = forms.CreateTicketForm(request.POST)
+        form = forms.CreateTicketForm(request.POST, request.FILES)
         form.instance.owner = User.objects.get(id=request.user.id)
         form.instance.ticket_status = TicketStatus.objects.get(name='New')
         form.instance.archived = False
@@ -87,3 +88,7 @@ def delete(request, ticket_id):
         return redirect('accounts:dashboard')
     else:
         return render(request, 'home/error.html')
+
+
+def addcomment(request, ticket_id):
+    pass

@@ -13,7 +13,7 @@
                             <i class="fas fa-user-plus"></i>Open a ticket</h4>
                     </div>
                     <div class="card-body">
-                        <form action="{% url 'tickets:create' %}" method="POST" novalidate>
+                        <form action="{% url 'tickets:create' %}" method="POST" novalidate enctype=multipart/form-data>
                             {% csrf_token %}
                             {% for field in form %}
                             <div class="form-group">

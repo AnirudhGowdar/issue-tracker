@@ -35,7 +35,7 @@ class CreateTicketForm(ModelForm):
     class Meta:
         model = Ticket
         fields = [
-            'title', 'description', 'project', 'ticket_type',
+            'title', 'description', 'project', 'ticket_type', 'attachment'
         ]
 
 
@@ -82,11 +82,12 @@ class EditTicketForm(ModelForm):
     class Meta:
         model = Ticket
         fields = [
-            'title', 'description', 'project', 'ticket_type', 'ticket_priority', 'ticket_status'
+            'title', 'description', 'project', 'ticket_type', 'attachment'
         ]
 
 
 class AssignDeveloperForm(ModelForm):
+
     def __init__(self, *args, **kwargs):
         super(AssignDeveloperForm, self).__init__(*args, **kwargs)
         print(self.instance)
