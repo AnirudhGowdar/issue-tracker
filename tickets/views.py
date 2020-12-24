@@ -87,3 +87,46 @@ def delete(request, ticket_id):
         return redirect('accounts:dashboard')
     else:
         return render(request, 'home/error.html')
+
+
+@login_required(login_url='/accounts/login')
+def addpriority(request):
+    if request.user.is_superuser:
+        form = None
+        if request.method == 'POST':
+            form = forms.AddTicketPriorityForm(request.POST)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Ticket Priority added successfully')
+                return redirect('accounts:dashboard')
+        elif request.method == 'GET':
+            form = forms.AddTicketPriorityForm()
+        return render(
+        request=request,
+        template_name='tickets/addpriority.html',
+        context={'form': form}
+    )
+    else:
+        return render(request, 'home/error.html')
+
+@login_required(login_url='/accounts/login')
+def addtype(request):
+    if request.user.is_superuser:
+        form = None
+        if request.method == 'POST':
+            form = forms.AddTicketTypeForm(request.POST)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Ticket Type added successfully')
+                return redirect('accounts:dashboard')
+        elif request.method == 'GET':
+            form = forms.AddTicketTypeForm()
+        return render(
+        request=request,
+        template_name='tickets/addtype.html',
+        context={'form': form}
+    )
+    else:
+        return render(request, 'home/error.html')
+    
+

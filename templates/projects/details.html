@@ -19,16 +19,64 @@
                 <dd class="col-sm-6 large-font-1">{{project.manager.username}}</dd>
             </dl>
             <hr/>
-            <h3>Project Developers Team</h3>
-            <ul class>
-            {% if project.developers.all.count == 0 %}
-            <p>No developers assigned</p>
-            {% endif %}
-            {% for developer in project.developers.all %}
-                <li>{{ developer.username }}</li>
-            {% endfor %}
-            </ul>
-        </div>.
+            <table class="table">
+            <tr><td>
+            <div class="card border-primary mb-3" style="max-width: 40rem;padding-left: 1%;">
+                <div class="card-header" style="font-size: 30pt;">Project Developers Team</div>
+                <div class="card-body">
+                    <div style="padding-left:2%;padding-right: 2%">
+                    <table class=" table" >
+                        <thead class="table-primary">
+                            <tr>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if project.developers.all.count == 0 %}
+                            <p>No developers assigned</p>
+                            {% endif %}
+                            {% for developer in project.developers.all %}
+                                <tr>
+                                <td>{{ developer.username }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            </div></td><td>
+            <div class="card border-primary mb-3" style="max-width: 40rem;padding-left: 1%;">
+                <div class="card-header" style="font-size: 30pt;">Tickets on this Project</div>
+                <div class="card-body">
+                    <div style="padding-left:2%;padding-right: 2%">
+                    <table class="table">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>Title</th>
+                                <th>Date</th>
+                                <th>Opened by</th>
+                                <th>Assigned To</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for ticket in tickets %}
+                            {% if ticket.project == project %}
+                            <tr>
+                                <td>{{ticket.title}}</td>
+                                <td>{{ticket.created}}</td>
+                                <td>{{ticket.owner.username}}</td>
+                                <td>{{ticket.assigned_to}}</td>
+                                <td><a href="{% url 'tickets:details' ticket.pk %}">Details</a></td>
+                            </tr>
+                            {% endif %}
+                            {% endfor %} 
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            </div></td></tr></table>
+        </div>
         {% if project.manager == user %}
         <a class="btn btn-primary" href="{% url 'projects:assign' project.pk %}">Assign developers</a>
         <a class="btn btn-danger" href="{% url 'projects:delete' project.pk %}">Delete project</a>

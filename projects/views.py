@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib import messages
 from . import forms
-from home.models import Project
+from home.models import Project, Ticket
 from django.contrib.auth.decorators import login_required
 
 
@@ -41,7 +41,8 @@ def index(request):
 def details(request, project_id):
     user = request.user
     project = Project.objects.get(pk=project_id)
-    return render(request, 'projects/details.html', {'project': project, 'user': user})
+    tickets = Ticket.objects.all()
+    return render(request, 'projects/details.html', {'project': project, 'user': user, 'tickets': tickets})
 
 
 @login_required(login_url='/accounts/login')
