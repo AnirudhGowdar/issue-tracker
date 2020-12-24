@@ -92,7 +92,8 @@ class Ticket(models.Model):
     assigned_to = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='assigned_to_developer', blank=True, null=True)
     archived = models.BooleanField()
-    attachment = models.FileField(upload_to=user_directory_path)
+    attachment = models.FileField(
+        upload_to=user_directory_path, blank=True, null=True)
 
     class Meta:
         verbose_name = 'Ticket'

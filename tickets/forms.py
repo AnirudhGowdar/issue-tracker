@@ -76,7 +76,12 @@ class EditTicketForm(ModelForm):
 
     description = forms.CharField(
         widget=forms.Textarea(attrs=attrs_dict),
-        label='description',
+        label='Description',
+    )
+
+    attachment = forms.FileField(
+        widget=forms.ClearableFileInput(attrs={'class': 'form-control'}),
+        label='Attachment'
     )
 
     class Meta:
@@ -109,6 +114,8 @@ class AssignDeveloperForm(ModelForm):
         fields = [
             'ticket_priority', 'assigned_to'
         ]
+
+
 class AddTicketPriorityForm(ModelForm):
     name = forms.CharField(
         max_length=20,
@@ -119,11 +126,14 @@ class AddTicketPriorityForm(ModelForm):
         widget=forms.Textarea(attrs=attrs_dict),
         label='Description',
     )
+
     class Meta:
         model = TicketPriority
         fields = [
             'name', 'description'
         ]
+
+
 class AddTicketTypeForm(ModelForm):
     name = forms.CharField(
         max_length=20,
@@ -134,6 +144,7 @@ class AddTicketTypeForm(ModelForm):
         widget=forms.Textarea(attrs=attrs_dict),
         label='Description',
     )
+
     class Meta:
         model = TicketType
         fields = [
