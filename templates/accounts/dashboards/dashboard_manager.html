@@ -19,6 +19,7 @@
     <div class="card-header" style="font-size: 30pt;">Your Tickets</div>
     <div class="card-body">
       <div style="padding-left:2%;padding-right: 2%">
+        {% if tickets %}
         <table class=" table ">
             <thead class="table-primary">
                 <tr>
@@ -41,6 +42,9 @@
                 {% endfor %} 
             </tbody>
         </table>
+        {% else %}
+            <h4>No tickets</h4>
+        {% endif %}
         </div>
     </div>
   </div>
@@ -49,6 +53,7 @@
     <div class="card-header" style="font-size: 30pt;">Recent Tickets</div>
     <div class="card-body">
       <div style="padding-left:2%;padding-right: 2%">
+        {% if tickets %}
         <table class=" table" >
             <thead class="table-primary">
                 <tr>
@@ -73,13 +78,19 @@
                 {% endfor %} 
             </tbody>
         </table>
+        {% else %}
+            <h4>No tickets</h4>
+        {% endif %}
         </div>
     </div>
   </div></td></tr></table>
+  <button type="button" class="btn btn-primary btn-lg" style= "float: right;" 
+      onclick="window.location.href='../projects/create'">Add Project</button>
   <h1 class="font-weight-bold text-capitalize" style="padding-left:2%;padding-right: 2%">Your Projects</h1>
   <div style="margin-left: 100pt;">
     <table style="width:800pt;">
         <tr>
+        {% if project %}
         {% for s in project %}
         {% if s.manager.username == user.username %}
           <td>
@@ -88,11 +99,15 @@
               <img src="{% static 'img/plogo.png'%}"/>
             </button>
             <figcaption><h2>{{s.title}}</h2></figcaption></a>
+            <a href="{% url 'projects:edit' s.pk %}">Edit</a>
           </td>
           {% endif %}
           {% endfor %} 
         </tr>         
       </table>
 </div>
+{% else %}
+            <h4>No Projects</h4>
+    {% endif %}
 <p>Project Manager</p>
 {% endblock %}

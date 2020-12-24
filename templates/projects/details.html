@@ -20,15 +20,19 @@
             </dl>
             <hr/>
             <h3>Project Developers Team</h3>
-            <ul class="list-group">
+            <ul class>
             {% if project.developers.all.count == 0 %}
             <p>No developers assigned</p>
             {% endif %}
             {% for developer in project.developers.all %}
-                <li class="list-group-item">{{ developer.username }}</li>
+                <li>{{ developer.username }}</li>
             {% endfor %}
             </ul>
-        </div>
+        </div>.
+        {% if project.manager == user %}
+        <a class="btn btn-primary" href="{% url 'projects:assign' project.pk %}">Assign developers</a>
+        <a class="btn btn-danger" href="{% url 'projects:delete' project.pk %}">Delete project</a>
+        {% endif %}
     </div>
 </body>
 {% endblock %}

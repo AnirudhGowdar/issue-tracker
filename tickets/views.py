@@ -3,8 +3,10 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from . import forms
 from home.models import Ticket, TicketStatus
+from django.contrib.auth.decorators import login_required
 
 
+@login_required(login_url='/accounts/login')
 def create(request):
     form = None
     if request.method == 'POST':
@@ -15,7 +17,7 @@ def create(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Ticket has been opened')
-            return redirect('home:index')
+            return redirect('accounts:dashboard')
     elif request.method == 'GET':
         form = forms.CreateTicketForm()
     return render(
@@ -25,18 +27,22 @@ def create(request):
     )
 
 
+@login_required(login_url='/accounts/login')
 def index(request):
     tickets = Ticket.objects.all()
     print(tickets)
     return render(request, 'tickets/index.html', {'tickets': tickets})
 
 
+@login_required(login_url='/accounts/login')
 def details(request, ticket_id):
     print(ticket_id)
     ticket = Ticket.objects.get(pk=ticket_id)
-    return render(request, 'tickets/details.html', {'ticket': ticket})
+    user = request.user
+    return render(request, 'tickets/details.html', {'ticket': ticket, 'user': user})
 
 
+@login_required(login_url='/accounts/login')
 def edit(request, ticket_id):
     ticket = None
     if ticket_id:
@@ -47,13 +53,14 @@ def edit(request, ticket_id):
         form.save()
         messages.success(request, 'Ticket Edited Successfully')
         # Save was successful, so redirect to another page
-        return redirect('tickets:index')
+        return redirect('accounts:dashboard')
 
     return render(request, 'tickets/edit.html', {
         'form': form
     })
 
 
+@login_required(login_url='/accounts/login')
 def assign(request, ticket_id):
     ticket = None
     if ticket_id:
@@ -65,8 +72,18 @@ def assign(request, ticket_id):
         form.save()
         messages.success(request, 'Developer Assigned Successfully')
         # Save was successful, so redirect to another page
-        return redirect('tickets:index')
+        return redirect('accounts:dashboard')
 
     return render(request, 'tickets/assign.html', {
         'form': form
     })
+
+
+@login_required(login_url='/accounts/login')
+def delete(request, ticket_id):
+    ticket = get_object_or_404(Ticket, pk=ticket_id)
+    if request.user == ticket.owner or request.user.is_superuser:
+        ticket.delete()
+        return redirect('accounts:dashboard')
+    else:
+        return render(request, 'home/error.html')

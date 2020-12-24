@@ -1,21 +1,27 @@
+from django.http.response import HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib import messages
 from . import forms
 from home.models import Project
+from django.contrib.auth.decorators import login_required
 
 
+@login_required(login_url='/accounts/login')
 def create(request):
-    form = None
-    if request.method == 'POST':
-        form = forms.CreateProjectForm(request.POST)
-        form.instance.manager = User.objects.get(id=request.user.id)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Project Created Successfully')
-            return redirect('projects:index')
-    elif request.method == 'GET':
-        form = forms.CreateProjectForm()
+    if request.user.groups.filter(name='project_managers').exists():
+        form = None
+        if request.method == 'POST':
+            form = forms.CreateProjectForm(request.POST)
+            form.instance.manager = User.objects.get(id=request.user.id)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Project Created Successfully')
+                return redirect('accounts:dashboard')
+        elif request.method == 'GET':
+            form = forms.CreateProjectForm()
+    else:
+        return HttpResponseForbidden()
     return render(
         request=request,
         template_name='projects/create.html',
@@ -23,6 +29,7 @@ def create(request):
     )
 
 
+@login_required(login_url='/accounts/login')
 def index(request):
     tabledata = Project.objects.all()
     for d in tabledata:
@@ -30,12 +37,16 @@ def index(request):
     return render(request, 'projects/index.html', {'tabledata': tabledata})
 
 
+@login_required(login_url='/accounts/login')
 def details(request, project_id):
+    user = request.user
     project = Project.objects.get(pk=project_id)
-    return render(request, 'projects/details.html', {'project': project})
+    return render(request, 'projects/details.html', {'project': project, 'user': user})
 
 
+@login_required(login_url='/accounts/login')
 def edit(request, project_id):
+    project = None
     if project_id:
         project = get_object_or_404(Project, pk=project_id)
 
@@ -44,13 +55,14 @@ def edit(request, project_id):
         form.save()
         messages.success(request, 'Project Edited Successfully')
         # Save was successful, so redirect to another page
-        return redirect('projects:index')
+        return redirect('accounts:dashboard')
 
     return render(request, 'projects/edit.html', {
         'form': form
     })
 
 
+@login_required(login_url='/accounts/login')
 def assign(request, project_id):
     project = None
     if project_id:
@@ -61,13 +73,14 @@ def assign(request, project_id):
         form.save()
         messages.success(request, 'Developers Added Successfully')
         # Save was successful, so redirect to another page
-        return redirect('projects:index')
+        return redirect('accounts:dashboard')
 
     return render(request, 'projects/assign.html', {
         'form': form
     })
 
 
+@login_required(login_url='/accounts/login')
 def remove(request, project_id):
     project = None
     if project_id:
@@ -78,7 +91,17 @@ def remove(request, project_id):
         form.save()
         messages.success(request, 'Developers removed Successfully')
         # Save was successful, so redirect to another page
-        return redirect('projects:index')
+        return redirect('accounts:dashboard')
     return render(request, 'projects/remove.html', {
         'form': form
     })
+
+
+@login_required(login_url='/accounts/login')
+def delete(request, project_id):
+    project = get_object_or_404(Project, pk=project_id)
+    if request.user == project.manager or request.user.is_superuser:
+        project.delete()
+        return redirect('accounts:dashboard')
+    else:
+        return render(request, 'home/error.html')

@@ -30,6 +30,9 @@
                 <dt class="col-sm-6 large-font-1">Status</dt>
                 <dd class="col-sm-6 large-font-1">{{ticket.ticket_status.name}}</dd>
             </dl>
+            {% if ticket.project.manager == user %}
+            <a href="{% url 'tickets:assign' ticket.pk %}">Assign a developer</a>
+            {% endif %}
         </div>
     </div>
 </body>

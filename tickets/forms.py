@@ -90,8 +90,14 @@ class AssignDeveloperForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(AssignDeveloperForm, self).__init__(*args, **kwargs)
         print(self.instance)
+        self.fields['ticket_priority'] = forms.ModelChoiceField(
+            queryset=TicketPriority.objects.all(),
+            widget=forms.Select(
+                attrs={'class': 'required form-control custom-select'}
+            )
+        )
         self.fields['assigned_to'] = forms.ModelChoiceField(
-            queryset=User.objects.all(),
+            queryset=self.instance.project.developers.all(),
             widget=forms.Select(
                 attrs={'class': 'required form-control custom-select'}
             )
@@ -100,5 +106,5 @@ class AssignDeveloperForm(ModelForm):
     class Meta:
         model = Ticket
         fields = [
-            'assigned_to'
+            'ticket_priority', 'assigned_to'
         ]

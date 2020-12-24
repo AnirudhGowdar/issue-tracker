@@ -4,7 +4,8 @@ from django.contrib import messages, auth
 from django.contrib.auth import authenticate, update_session_auth_hash
 from . import forms
 from django.contrib.auth.models import Group, User
-from home.models import Project,Ticket
+from home.models import Project, Ticket
+from django.contrib.auth.decorators import login_required
 
 
 def register(request):
@@ -62,20 +63,21 @@ def logout(request):
         return redirect('home:index')
 
 
+@login_required(login_url='/accounts/login')
 def dashboard(request):
     if request.user.is_authenticated:
         if request.user.groups.filter(name='project_managers').exists():
-            tickets=Ticket.objects.all()
-            project=Project.objects.all()
-            return render(request, 'accounts/dashboards/dashboard_manager.html', {'tickets': tickets , 'project': project})
+            tickets = Ticket.objects.all()
+            project = Project.objects.all()
+            return render(request, 'accounts/dashboards/dashboard_manager.html', {'tickets': tickets, 'project': project})
         elif request.user.groups.filter(name='developers').exists():
-            tickets=Ticket.objects.all()
-            project=Project.objects.all()
-            return render(request, 'accounts/dashboards/dashboard_developer.html', {'tickets': tickets , 'project': project})
+            tickets = Ticket.objects.all()
+            project = Project.objects.all()
+            return render(request, 'accounts/dashboards/dashboard_developer.html', {'tickets': tickets, 'project': project})
         elif request.user.is_superuser:
-            tickets=Ticket.objects.all()
-            project=Project.objects.all()
-            return render(request, 'accounts/dashboards/dashboard_admin.html', {'tickets': tickets , 'project': project})
+            tickets = Ticket.objects.all()
+            project = Project.objects.all()
+            return render(request, 'accounts/dashboards/dashboard_admin.html', {'tickets': tickets, 'project': project})
         tickets = Ticket.objects.all()
         return render(request, 'accounts/dashboards/dashboard_end_user.html', {'tickets': tickets})
     else:
@@ -83,11 +85,13 @@ def dashboard(request):
         return redirect('accounts:login')
 
 
+@login_required(login_url='/accounts/login')
 def profile(request, user_id):
     userdata = User.objects.get(pk=user_id)
     return render(request, 'accounts/profile.html', {'userdata': userdata})
 
 
+@login_required(login_url='/accounts/login')
 def edit_profile(request, user_id):
     user = None
     if user_id:
@@ -105,6 +109,7 @@ def edit_profile(request, user_id):
     })
 
 
+@login_required(login_url='/accounts/login')
 def change_password(request):
     if request.method == 'POST':
         form = forms.ChangePasswordForm(request.user, request.POST)
