@@ -4,7 +4,7 @@ from django.contrib import messages, auth
 from django.contrib.auth import authenticate, update_session_auth_hash
 from . import forms
 from django.contrib.auth.models import Group, User
-from home.models import Project, Ticket
+from home.models import Project, Ticket, TicketType, TicketPriority
 from django.contrib.auth.decorators import login_required
 
 
@@ -75,9 +75,11 @@ def dashboard(request):
             project = Project.objects.all()
             return render(request, 'accounts/dashboards/dashboard_developer.html', {'tickets': tickets, 'project': project})
         elif request.user.is_superuser:
+            tic_type = TicketType.objects.all()
+            tic_priority = TicketPriority.objects.all()
             tickets = Ticket.objects.all()
             project = Project.objects.all()
-            return render(request, 'accounts/dashboards/dashboard_admin.html', {'tickets': tickets, 'project': project})
+            return render(request, 'accounts/dashboards/dashboard_admin.html', {'tickets': tickets, 'project': project , 'tic_type': tic_type, 'tic_priority': tic_priority})
         tickets = Ticket.objects.all()
         return render(request, 'accounts/dashboards/dashboard_end_user.html', {'tickets': tickets})
     else:

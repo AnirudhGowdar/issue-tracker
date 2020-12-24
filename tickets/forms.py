@@ -109,3 +109,33 @@ class AssignDeveloperForm(ModelForm):
         fields = [
             'ticket_priority', 'assigned_to'
         ]
+class AddTicketPriorityForm(ModelForm):
+    name = forms.CharField(
+        max_length=20,
+        min_length=3,
+        widget=forms.TextInput(attrs=attrs_dict),
+    )
+    description = forms.CharField(
+        widget=forms.Textarea(attrs=attrs_dict),
+        label='Description',
+    )
+    class Meta:
+        model = TicketPriority
+        fields = [
+            'name', 'description'
+        ]
+class AddTicketTypeForm(ModelForm):
+    name = forms.CharField(
+        max_length=20,
+        min_length=3,
+        widget=forms.TextInput(attrs=attrs_dict),
+    )
+    description = forms.CharField(
+        widget=forms.Textarea(attrs=attrs_dict),
+        label='Description',
+    )
+    class Meta:
+        model = TicketType
+        fields = [
+            'name', 'description'
+        ]

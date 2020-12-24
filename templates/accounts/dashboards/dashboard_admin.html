@@ -15,7 +15,7 @@
 <h1 class="font-weight-bold text-capitalize" style="padding: 2%;">Welcome  {{ user.username }}</h1>
 <table class="table">
     <tr><td>
-<div class="card border-primary mb-3" style="max-width: 40rem;padding-left: 1%;">
+<!--<div class="card border-primary mb-3" style="max-width: 40rem;padding-left: 1%;">
     <div class="card-header" style="font-size: 30pt;">Your Tickets</div>
     <div class="card-body">
       <div style="padding-left:2%;padding-right: 2%">
@@ -43,38 +43,61 @@
         </table>
         </div>
     </div>
-  </div>
-  </td><td>
+  </div>-->
   <div class="card border-primary mb-3" style="max-width: 40rem;padding-left: 1%;">
-    <div class="card-header" style="font-size: 30pt;">Recent Tickets</div>
+    <div class="pull-right">
+        <button type="button" class="btn btn-primary btn-lg pull-right" style= "float: right;" 
+          onclick="window.location.href='../tickets/addpriority'"> Add Ticket Priority</button>
+        <div class="card-header" style="font-size: 30pt;">Ticket Priorities</div></div>
     <div class="card-body">
       <div style="padding-left:2%;padding-right: 2%">
         <table class=" table" >
             <thead class="table-primary">
                 <tr>
-                    <th>Title</th>
-                    <th>Project</th>
-                    <th>Status</th>
-                    <th></th>
+                    <th>Name</th>
+                    <th>Description</th>
                 </tr>
             </thead>
             <tbody>
-                {% for ticket in tickets %}
-                {% if ticket.ticket_status_id == 1 %}
+                {% for s in tic_priority %}
+                    <tr>
+                        <td>{{s.name}}</td>
+                        <td>{{s.description}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    </div>
+  </div>
+  </td><td>
+  <div class="card border-primary mb-3" style="max-width: 40rem;padding-left: 1%;">
+    <div class="pull-right">
+    <button type="button" class="btn btn-primary btn-lg pull-right" style= "float: right;" 
+      onclick="window.location.href='../tickets/addtype'"> Add Ticket Type</button>
+    <div class="card-header" style="font-size: 30pt;">Ticket Types</div></div>
+    <div class="card-body">
+      <div style="padding-left:2%;padding-right: 2%">
+        <table class=" table" >
+            <thead class="table-primary">
                 <tr>
-                    <td>{{ticket.title}}</td>
-                    <td>{{ticket.project.title}}</td>
-                    <td>{{ticket.ticket_status.name}}</td>
-                    <td><a href="{% url 'tickets:details' ticket.pk %}">Details</a></td>
+                    <th>Name</th>
+                    <th>Description</th>
                 </tr>
-                {% endif %}
-                {% endfor %} 
+            </thead>
+            <tbody>
+                {% for s in tic_type %}
+                    <tr>
+                        <td>{{s.name}}</td>
+                        <td>{{s.description}}</td>
+                    </tr>
+                {% endfor %}
             </tbody>
         </table>
         </div>
     </div>
   </div></td></tr></table>
-  <h1 class="font-weight-bold text-capitalize" style="padding-left:2%;padding-right: 2%">Your Projects</h1>
+  <h1 class="font-weight-bold text-capitalize" style="padding-left:2%;padding-right: 2%">All Projects</h1>
   <div style="margin-left: 100pt;">
     <table style="width:800pt;">
         <tr>
