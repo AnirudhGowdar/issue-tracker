@@ -34,6 +34,24 @@
             <a href="{% url 'tickets:assign' ticket.pk %}">Assign a developer</a>
             {% endif %}
         </div>
+        <div class="card-body">
+            <form action="{% url 'tickets:details' ticket.pk%}" method="POST" novalidate>
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.name }}">{{ field.label }}</label>
+                    {{field}}
+                    <div class="text-danger">{{field.errors|striptags}}</div>
+                </div>
+                {% endfor %}
+                <input type="submit" value="Add comment" class="btn btn-secondary btn-block col-7">
+            </form>
+        </div>
+        <div>
+            {% for comment in comments %}
+            <p>{{comment}}</p>
+            {% endfor %}
+        </div>
     </div>
 </body>
 {% endblock %}

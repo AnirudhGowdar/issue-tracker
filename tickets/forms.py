@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.forms import ModelForm
-from home.models import Project, Ticket, TicketPriority, TicketStatus, TicketType
+from home.models import Project, Ticket, TicketComment, TicketPriority, TicketStatus, TicketType
 from django import forms
 
 attrs_dict = {'class': 'required form-control'}
@@ -149,4 +149,19 @@ class AddTicketTypeForm(ModelForm):
         model = TicketType
         fields = [
             'name', 'description'
+        ]
+
+
+class AddCommentForm(ModelForm):
+
+    comment = forms.CharField(
+        widget=forms.Textarea(
+            attrs={'class': 'required form-control form-control-sm col-7'}),
+        label='Comment'
+    )
+
+    class Meta:
+        model = TicketComment
+        fields = [
+            'comment'
         ]

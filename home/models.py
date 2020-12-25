@@ -104,8 +104,8 @@ class Ticket(models.Model):
 
 
 class TicketComment(models.Model):
-    ticket_id = models.ForeignKey(Ticket, on_delete=models.CASCADE)
-    author_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     comment = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
 
@@ -115,37 +115,3 @@ class TicketComment(models.Model):
 
     def __str__(self):
         return self.comment
-
-
-class TicketHistory(models.Model):
-    ticket_id = models.ForeignKey(Ticket, on_delete=models.CASCADE)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    property = models.CharField(max_length=20)
-    old_value = models.TextField()
-    new_value = models.TextField()
-
-    class Meta:
-        verbose_name = 'Ticket History'
-        verbose_name_plural = 'Ticket Histories'
-
-    def __str__(self):
-        return str(self.ticket_id) + ' <-> ' + str(self.user_id)
-
-
-class TicketNotification(models.Model):
-    ticket_id = models.ForeignKey(Ticket, on_delete=models.CASCADE)
-    recipient_id = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='recipient_id')
-    sender_id = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='sender_id')
-    created = models.DateTimeField(auto_now_add=True)
-    subject = models.CharField(max_length=30)
-    body = models.TextField()
-    is_read = models.BooleanField()
-
-    class Meta:
-        verbose_name = 'Ticket Notification'
-        verbose_name_plural = 'Ticket Notifications'
-
-    def __str__(self):
-        return self.subject

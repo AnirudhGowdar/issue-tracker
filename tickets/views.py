@@ -3,7 +3,7 @@ from django.http.response import HttpResponseForbidden
 from django.contrib.auth.models import User
 from django.contrib import messages
 from . import forms
-from home.models import Ticket, TicketStatus
+from home.models import Ticket, TicketComment, TicketStatus
 from django.contrib.auth.decorators import login_required
 
 
@@ -31,16 +31,35 @@ def create(request):
 @login_required(login_url='/accounts/login')
 def index(request):
     tickets = Ticket.objects.all()
-    print(tickets)
     return render(request, 'tickets/index.html', {'tickets': tickets})
 
 
 @login_required(login_url='/accounts/login')
 def details(request, ticket_id):
-    print(ticket_id)
     ticket = Ticket.objects.get(pk=ticket_id)
+    comments = TicketComment.objects.filter(ticket=ticket).order_by('-created')
     user = request.user
-    return render(request, 'tickets/details.html', {'ticket': ticket, 'user': user})
+    form = None
+    if request.method == 'POST':
+        form = forms.AddCommentForm(request.POST)
+        if form.is_valid():
+            new_comment = form.save(commit=False)
+            new_comment.author = user
+            new_comment.ticket = ticket
+            new_comment.save()
+        return redirect('tickets:details', ticket_id=ticket_id)
+    else:
+        form = forms.AddCommentForm
+    return render(
+        request,
+        'tickets/details.html',
+        {
+            'ticket': ticket,
+            'user': user,
+            'comments': comments,
+            'form': form
+        }
+    )
 
 
 @login_required(login_url='/accounts/login')
