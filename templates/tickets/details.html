@@ -4,6 +4,9 @@
 <body class="about">
     <div>
         <div class="div-left">
+            {% if ticket.project.manager == user %}
+            <a class="btn btn-primary btn-lg" style="float: right;" href="{% url 'tickets:assign' ticket.pk %}">Assign a developer</a>
+            {% endif %}
             <h1 class="details-header">Ticket details</h1>
             <hr/>
             <dl class="row">
@@ -30,22 +33,21 @@
                 <dt class="col-sm-6 large-font-1">Status</dt>
                 <dd class="col-sm-6 large-font-1">{{ticket.ticket_status.name}}</dd>
             </dl>
-            {% if ticket.project.manager == user %}
-            <a href="{% url 'tickets:assign' ticket.pk %}">Assign a developer</a>
-            {% endif %}
         </div>
         <div class="card-body">
+            <h3>Comments</h3>
+            {% if user == ticket.owner or user == ticket.assigned_to %}
             <form action="{% url 'tickets:details' ticket.pk%}" method="POST" novalidate>
                 {% csrf_token %}
                 {% for field in form %}
                 <div class="form-group">
-                    <label for="{{ field.name }}">{{ field.label }}</label>
                     {{field}}
                     <div class="text-danger">{{field.errors|striptags}}</div>
-                </div>
+                </div>  
                 {% endfor %}
                 <input type="submit" value="Add comment" class="btn btn-secondary btn-block col-7">
             </form>
+            {% endif %}
         </div>
         {% for comment in comments %}
         <div style="padding-left: 2%;padding-bottom: 1%;">
