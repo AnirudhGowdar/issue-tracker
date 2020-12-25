@@ -47,11 +47,19 @@
                 <input type="submit" value="Add comment" class="btn btn-secondary btn-block col-7">
             </form>
         </div>
-        <div>
-            {% for comment in comments %}
-            <p>{{comment}}</p>
-            {% endfor %}
+        {% for comment in comments %}
+        <div style="padding-left: 2%;padding-bottom: 1%;">
+        <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header" style="background-color:khaki; color: rgb(63, 56, 56);">
+              <strong class="mr-auto"><b>{{comment.author}}</b></strong>
+              <small>{{comment.created}}</small>
+            </div>
+            <div class="toast-body" style="background-color:beige;">
+              {{comment}}
+            </div>
         </div>
+        </div>
+        {% endfor %}
     </div>
 </body>
 {% endblock %}

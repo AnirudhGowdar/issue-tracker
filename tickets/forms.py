@@ -156,7 +156,7 @@ class AddCommentForm(ModelForm):
 
     comment = forms.CharField(
         widget=forms.Textarea(
-            attrs={'class': 'required form-control form-control-sm col-7'}),
+            attrs={'class': 'required form-control form-control-sm col-7', 'rows':2}),
         label='Comment'
     )
 
