@@ -127,3 +127,10 @@ def change_password(request):
     return render(request, 'accounts/change_password.html', {
         'form': form
     })
+
+@login_required(login_url='/accounts/login')
+def users(request):
+    userdata=User.objects.all()
+    groupdata = Group.objects.all()
+    return render(request, 'accounts/users.html', {'userdata': userdata, 'groupdata': groupdata})
+

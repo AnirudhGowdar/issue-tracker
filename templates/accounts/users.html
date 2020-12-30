@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<body class="about">
+    <div>
+        <h1 class="display-3 center-align-text text-dark"><i>Users</i></h1><br><br>
+    </div>
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>E-Mail</th>
+                    <th>Date Joined</th>
+                    <th>User Role</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for s in userdata %}
+                {% if s.is_superuser %}
+                {% else %}
+                <tr>
+                    <td>{{s.first_name}} {{s.last_name}}</td>
+                    <td>{{s.username}}</td>
+                    <td>{{s.email}}</td>
+                    <td>{{s.date_joined}}</td>
+                    <td>{{s.groups.all.0}}</td>
+                    <td>Change User Role</td>
+                </tr>
+                {% endif %}
+                {% endfor %} 
+            </tbody>
+        </table>
+</body>
+{% endblock %}
