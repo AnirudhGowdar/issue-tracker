@@ -27,7 +27,7 @@
                     <td>{{s.email}}</td>
                     <td>{{s.date_joined}}</td>
                     <td>{{s.groups.all.0}}</td>
-                    <td>Change User Role</td>
+                    <td><a href="{% url 'accounts:userrole' s.pk  %}">Change User Role</a></td>
                 </tr>
                 {% endif %}
                 {% endfor %} 

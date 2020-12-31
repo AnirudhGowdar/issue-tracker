@@ -79,7 +79,7 @@ def dashboard(request):
             tic_priority = TicketPriority.objects.all()
             tickets = Ticket.objects.all()
             project = Project.objects.all()
-            return render(request, 'accounts/dashboards/dashboard_admin.html', {'tickets': tickets, 'project': project , 'tic_type': tic_type, 'tic_priority': tic_priority})
+            return render(request, 'accounts/dashboards/dashboard_admin.html', {'tickets': tickets, 'project': project, 'tic_type': tic_type, 'tic_priority': tic_priority})
         tickets = Ticket.objects.all()
         return render(request, 'accounts/dashboards/dashboard_end_user.html', {'tickets': tickets})
     else:
@@ -128,9 +128,22 @@ def change_password(request):
         'form': form
     })
 
+
 @login_required(login_url='/accounts/login')
 def users(request):
-    userdata=User.objects.all()
+    userdata = User.objects.all()
     groupdata = Group.objects.all()
     return render(request, 'accounts/users.html', {'userdata': userdata, 'groupdata': groupdata})
 
+
+@login_required(login_url='/accounts/login')
+def userrole(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    form = forms.ChangeUserGroupForm(request.POST or None, instance=user)
+    if request.POST and form.is_valid():
+        form.save()
+        messages.success(request, 'Role updated successfully')
+        return redirect('accounts:users')
+    return render(request, 'accounts/userrole.html', {
+        'form': form
+    })

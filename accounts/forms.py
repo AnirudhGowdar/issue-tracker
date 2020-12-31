@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm
 from django.core.validators import RegexValidator
 from django.forms import ModelForm
@@ -184,3 +184,27 @@ class ChangePasswordForm(PasswordChangeForm):
             'incomplete': 'Please enter a valid password.'
         }
     )
+
+
+class ChangeUserGroupForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ChangeUserGroupForm, self).__init__(*args, **kwargs)
+        self.fields['groups'] = forms.ModelMultipleChoiceField(
+            queryset=Group.objects.all(),
+            label='Reassign user role',
+            widget=forms.SelectMultiple(
+                attrs={'class': 'required form-control custom-select'}
+            )
+        )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        g = cleaned_data['groups']
+        print(g)
+        return cleaned_data
+
+    class Meta:
+        model = User
+        fields = [
+            'groups'
+        ]
