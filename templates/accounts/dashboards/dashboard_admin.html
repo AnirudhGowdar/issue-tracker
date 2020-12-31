@@ -10,40 +10,9 @@
     </form>
 </li>
 {% block content %}
-<button type="button" class="btn btn-primary btn-lg" style= "float: right;" 
-      onclick="window.location.href='../tickets/create'"> Raise Ticket</button>
 <h1 class="font-weight-bold text-capitalize" style="padding: 2%;">Welcome  {{ user.username }}</h1>
 <table class="table">
     <tr><td>
-<!--<div class="card border-primary mb-3" style="max-width: 40rem;padding-left: 1%;">
-    <div class="card-header" style="font-size: 30pt;">Your Tickets</div>
-    <div class="card-body">
-      <div style="padding-left:2%;padding-right: 2%">
-        <table class=" table ">
-            <thead class="table-primary">
-                <tr>
-                    <th>Title</th>
-                    <th>Project</th>
-                    <th>Status</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for ticket in tickets %}
-                {% if ticket.owner.username == user.username %}
-                <tr>
-                    <td>{{ticket.title}}</td>
-                    <td>{{ticket.project.title}}</td>
-                    <td>{{ticket.ticket_status.name}}</td>
-                    <td><a href="{% url 'tickets:details' ticket.pk %}">Details</a></td>
-                </tr>
-                {% endif %}
-                {% endfor %} 
-            </tbody>
-        </table>
-        </div>
-    </div>
-  </div>-->
   <div class="card border-primary mb-3" style="max-width: 40rem;padding-left: 1%;">
     <div class="pull-right">
         <button type="button" class="btn btn-primary btn-lg pull-right" style= "float: right;" 
