@@ -49,7 +49,7 @@ class AssignUsersForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(AssignUsersForm, self).__init__(*args, **kwargs)
-        users = User.objects.all()
+        users = User.objects.filter(groups__name='developers')
         devs = self.instance.developers.all()
         users_available = users.exclude(id__in=devs)
         self.fields['developers'] = forms.ModelMultipleChoiceField(

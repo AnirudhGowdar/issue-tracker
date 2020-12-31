@@ -79,6 +79,7 @@
         </div>
         {% if project.manager == user %}
         <a class="btn btn-primary" href="{% url 'projects:assign' project.pk %}">Assign developers</a>
+        <a class="btn btn-warning" href="{% url 'projects:remove' project.pk %}">Remove developers</a>
         <a class="btn btn-danger" href="{% url 'projects:delete' project.pk %}">Delete project</a>
         {% endif %}
     </div>
