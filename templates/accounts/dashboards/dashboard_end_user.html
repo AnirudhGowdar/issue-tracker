@@ -16,6 +16,7 @@
 
 <h3 class="font-weight-bold text-capitalize" style="padding-left:2%;padding-right: 2%">Your Tickets</h3>
 <div style="padding-left:2%;padding-right: 2%">
+    {% if tickets %}
     <table class=" table">
         <thead class="table-primary">
             <tr>
@@ -31,7 +32,6 @@
         </thead>
         <tbody>
             {% for ticket in tickets %}
-            {% if ticket.owner.username == user.username %}
             <tr>
                 <td>{{ticket.title}}</td>
                 <td>{{ticket.ticket_type.name}}</td>
@@ -46,9 +46,11 @@
                 <td>{{ticket.ticket_status.name}}</td>
                 <td><a href="{% url 'tickets:details' ticket.pk %}">Details</a></td>
             </tr>
-            {% endif %}
             {% endfor %} 
         </tbody>
     </table>
+    {% else %}
+    <h4> No Tickets raised </h4>
+    {% endif %}
     </div>
 {% endblock %}

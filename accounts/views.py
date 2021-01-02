@@ -67,20 +67,43 @@ def logout(request):
 def dashboard(request):
     if request.user.is_authenticated:
         if request.user.groups.filter(name='project_managers').exists():
-            tickets = Ticket.objects.all()
-            project = Project.objects.all()
-            return render(request, 'accounts/dashboards/dashboard_manager.html', {'tickets': tickets, 'project': project})
+            y_tickets=[]
+            r_tickets=[]
+            tic = Ticket.objects.all()
+            projects = Project.objects.all()
+            for ticket in tic:
+                if ticket.owner == request.user:
+                    y_tickets.append(ticket)
+            for ticket in tic:
+                for s in projects:
+                    if ticket.project.title == s.title and s.manager == request.user and ticket.ticket_status_id == 1:
+                        r_tickets.append(ticket)
+            project=[]
+            for s in projects:
+                if s.manager == request.user:
+                    project.append(s)
+            return render(request, 'accounts/dashboards/dashboard_manager.html', {'y_tickets': y_tickets, 'r_tickets': r_tickets, 'project': project})
         elif request.user.groups.filter(name='developers').exists():
-            tickets = Ticket.objects.all()
+            y_tickets=[]
+            a_tickets=[]
+            tic = Ticket.objects.all()
             project = Project.objects.all()
-            return render(request, 'accounts/dashboards/dashboard_developer.html', {'tickets': tickets, 'project': project})
+            for ticket in tic:
+                if ticket.owner == request.user:
+                    y_tickets.append(ticket)
+                if ticket.assigned_to == request.user:
+                    a_tickets.append(ticket)
+            return render(request, 'accounts/dashboards/dashboard_developer.html', {'y_tickets': y_tickets,'a_tickets': a_tickets, 'project': project})
         elif request.user.is_superuser:
             tic_type = TicketType.objects.all()
             tic_priority = TicketPriority.objects.all()
-            tickets = Ticket.objects.all()
             project = Project.objects.all()
-            return render(request, 'accounts/dashboards/dashboard_admin.html', {'tickets': tickets, 'project': project, 'tic_type': tic_type, 'tic_priority': tic_priority})
-        tickets = Ticket.objects.all()
+            return render(request, 'accounts/dashboards/dashboard_admin.html', {'project': project, 'tic_type': tic_type, 'tic_priority': tic_priority})
+        tickets = []
+        tic = Ticket.objects.all()
+        for ticket in tic:
+            if ticket.owner == request.user:
+                tickets.append(ticket)
         return render(request, 'accounts/dashboards/dashboard_end_user.html', {'tickets': tickets})
     else:
         messages.error(request, 'You need to login to access the dashboard')
@@ -131,9 +154,12 @@ def change_password(request):
 
 @login_required(login_url='/accounts/login')
 def users(request):
-    userdata = User.objects.all()
-    groupdata = Group.objects.all()
-    return render(request, 'accounts/users.html', {'userdata': userdata, 'groupdata': groupdata})
+    if request.user.is_superuser:
+        userdata = User.objects.all()
+        groupdata = Group.objects.all()
+        return render(request, 'accounts/users.html', {'userdata': userdata, 'groupdata': groupdata})
+    else:
+        return render(request, 'home/error.html')
 
 
 @login_required(login_url='/accounts/login')

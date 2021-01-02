@@ -20,6 +20,7 @@
         <div class="card-header" style="font-size: 30pt;">Ticket Priorities</div></div>
     <div class="card-body">
       <div style="padding-left:2%;padding-right: 2%">
+        {% if tic_priority %}
         <table class=" table" >
             <thead class="table-primary">
                 <tr>
@@ -36,6 +37,9 @@
                 {% endfor %}
             </tbody>
         </table>
+        {% else %}
+        <h4>No Priorities</h4>
+        {% endif %}
         </div>
     </div>
   </div>
@@ -47,6 +51,7 @@
     <div class="card-header" style="font-size: 30pt;">Ticket Types</div></div>
     <div class="card-body">
       <div style="padding-left:2%;padding-right: 2%">
+        {% if tic_type %}
         <table class=" table" >
             <thead class="table-primary">
                 <tr>
@@ -63,11 +68,15 @@
                 {% endfor %}
             </tbody>
         </table>
+        {% else %}
+        <h4>No Ticket Types</h4>
+        {% endif %}
         </div>
     </div>
-  </div></td></tr></table>
-  <h1 class="font-weight-bold text-capitalize" style="padding-left:2%;padding-right: 2%">All Projects</h1>
-  <div style="margin-left: 100pt;">
+    </div></td></tr></table>
+    <h1 class="font-weight-bold text-capitalize" style="padding-left:2%;padding-right: 2%">All Projects</h1>
+    <div style="margin-left: 100pt;">
+    {% if project %}
     <table style="width:800pt;">
         <tr>
         {% for s in project %}
@@ -80,7 +89,10 @@
           </td>
           {% endfor %} 
         </tr>         
-      </table>
-</div>
+    </table>
+    {% else %}
+    <h4>No Projects</h4>
+    {% endif %}
+    </div>
 <p>Admin</p>
 {% endblock %}
