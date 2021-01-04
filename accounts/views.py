@@ -88,7 +88,9 @@ def dashboard(request):
             y_tickets = []
             a_tickets = []
             tic = Ticket.objects.all()
-            project = Project.objects.all()
+            project = Project.objects.filter(
+                developers=request.user
+            )
             for ticket in tic:
                 if ticket.owner == request.user:
                     y_tickets.append(ticket)

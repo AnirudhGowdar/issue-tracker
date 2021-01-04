@@ -1,15 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
-<li class="nav-item mr-3">
-    <a href="javascript:{document.getElementById('logout').submit()}" class="nav-link">
-        <i class="fas fa-sign-out-alt"></i> Logout
-    </a>
-    <form action="{% url 'logout' %}" method="POST" id="logout">
-        {% csrf_token %}
-        <input type="hidden">
-    </form>
-</li>
 {% block content %}
+
 <button type="button" class="btn btn-primary btn-lg" style= "float: right;" 
       onclick="window.location.href='../tickets/create'"> Raise Ticket</button>
 <h1 class="font-weight-bold text-capitalize" style="padding: 2%;">Welcome  {{ user.username }}</h1>
@@ -17,38 +9,40 @@
 <h3 class="font-weight-bold text-capitalize" style="padding-left:2%;padding-right: 2%">Your Tickets</h3>
 <div style="padding-left:2%;padding-right: 2%">
     {% if tickets %}
-    <table class=" table">
-        <thead class="table-primary">
-            <tr>
-                <th>Title</th>
-                <th>Type</th>
-                <th>Project</th>
-                <th>Date</th>
-                <th>Priority</th>
-                <th>Opened by</th>
-                <th>Status</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for ticket in tickets %}
-            <tr>
-                <td>{{ticket.title}}</td>
-                <td>{{ticket.ticket_type.name}}</td>
-                <td>{{ticket.project.title}}</td>
-                <td>{{ticket.updated}}</td>
-                {% if ticket.ticket_priority.name %}
-                    <td>{{ticket.ticket_priority.name}}</td>
-                {% else %}
-                    <td>Not assigned</td>
-                {% endif %}
-                <td>{{ticket.owner.username}}</td>
-                <td>{{ticket.ticket_status.name}}</td>
-                <td><a href="{% url 'tickets:details' ticket.pk %}">Details</a></td>
-            </tr>
-            {% endfor %} 
-        </tbody>
-    </table>
+    <div class="card border-primary mb-3">
+        <table class=" table">
+            <thead class="table-primary">
+                <tr>
+                    <th>Title</th>
+                    <th>Type</th>
+                    <th>Project</th>
+                    <th>Date</th>
+                    <th>Priority</th>
+                    <th>Opened by</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ticket in tickets %}
+                <tr>
+                    <td>{{ticket.title}}</td>
+                    <td>{{ticket.ticket_type.name}}</td>
+                    <td>{{ticket.project.title}}</td>
+                    <td>{{ticket.updated}}</td>
+                    {% if ticket.ticket_priority.name %}
+                        <td>{{ticket.ticket_priority.name}}</td>
+                    {% else %}
+                        <td>Not assigned</td>
+                    {% endif %}
+                    <td>{{ticket.owner.username}}</td>
+                    <td>{{ticket.ticket_status.name}}</td>
+                    <td><a href="{% url 'tickets:details' ticket.pk %}">Details</a></td>
+                </tr>
+                {% endfor %} 
+            </tbody>
+        </table>
+    </div>
     {% else %}
     <h4> No Tickets raised </h4>
     {% endif %}

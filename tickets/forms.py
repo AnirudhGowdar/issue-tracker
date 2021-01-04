@@ -55,18 +55,6 @@ class EditTicketForm(ModelForm):
                 attrs={'class': 'required form-control custom-select'}
             )
         )
-        self.fields['ticket_priority'] = forms.ModelChoiceField(
-            queryset=TicketPriority.objects.all(),
-            widget=forms.Select(
-                attrs={'class': 'required form-control custom-select'}
-            )
-        )
-        self.fields['ticket_status'] = forms.ModelChoiceField(
-            queryset=TicketStatus.objects.all(),
-            widget=forms.Select(
-                attrs={'class': 'required form-control custom-select'}
-            )
-        )
 
     title = forms.CharField(
         max_length=20,
@@ -156,7 +144,7 @@ class AddCommentForm(ModelForm):
 
     comment = forms.CharField(
         widget=forms.Textarea(
-            attrs={'class': 'required form-control form-control-sm col-7', 'rows':2}),
+            attrs={'class': 'required form-control form-control-sm col-7', 'rows': 2}),
         label='Comment'
     )
 
