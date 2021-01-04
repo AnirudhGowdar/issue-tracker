@@ -1,4 +1,5 @@
 from django.http import request
+from django.http.response import HttpResponseForbidden, HttpResponseNotFound
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages, auth
 from django.contrib.auth import authenticate, update_session_auth_hash
@@ -67,8 +68,8 @@ def logout(request):
 def dashboard(request):
     if request.user.is_authenticated:
         if request.user.groups.filter(name='project_managers').exists():
-            y_tickets=[]
-            r_tickets=[]
+            y_tickets = []
+            r_tickets = []
             tic = Ticket.objects.all()
             projects = Project.objects.all()
             for ticket in tic:
@@ -78,14 +79,14 @@ def dashboard(request):
                 for s in projects:
                     if ticket.project.title == s.title and s.manager == request.user and ticket.ticket_status_id == 1:
                         r_tickets.append(ticket)
-            project=[]
+            project = []
             for s in projects:
                 if s.manager == request.user:
                     project.append(s)
             return render(request, 'accounts/dashboards/dashboard_manager.html', {'y_tickets': y_tickets, 'r_tickets': r_tickets, 'project': project})
         elif request.user.groups.filter(name='developers').exists():
-            y_tickets=[]
-            a_tickets=[]
+            y_tickets = []
+            a_tickets = []
             tic = Ticket.objects.all()
             project = Project.objects.all()
             for ticket in tic:
@@ -93,7 +94,7 @@ def dashboard(request):
                     y_tickets.append(ticket)
                 if ticket.assigned_to == request.user:
                     a_tickets.append(ticket)
-            return render(request, 'accounts/dashboards/dashboard_developer.html', {'y_tickets': y_tickets,'a_tickets': a_tickets, 'project': project})
+            return render(request, 'accounts/dashboards/dashboard_developer.html', {'y_tickets': y_tickets, 'a_tickets': a_tickets, 'project': project})
         elif request.user.is_superuser:
             tic_type = TicketType.objects.all()
             tic_priority = TicketPriority.objects.all()
@@ -159,7 +160,7 @@ def users(request):
         groupdata = Group.objects.all()
         return render(request, 'accounts/users.html', {'userdata': userdata, 'groupdata': groupdata})
     else:
-        return render(request, 'home/error.html')
+        return HttpResponseForbidden()
 
 
 @login_required(login_url='/accounts/login')

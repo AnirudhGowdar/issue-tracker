@@ -39,13 +39,13 @@ def index(request):
 
 @login_required(login_url='/accounts/login')
 def details(request, project_id):
-    tickets=[]
+    tickets = []
     user = request.user
     project = Project.objects.get(pk=project_id)
     tic = Ticket.objects.all()
     for ticket in tic:
         if ticket.project == project:
-            tickets.append(ticket)    
+            tickets.append(ticket)
     return render(request, 'projects/details.html', {'project': project, 'user': user, 'tickets': tickets})
 
 
@@ -109,4 +109,4 @@ def delete(request, project_id):
         project.delete()
         return redirect('accounts:dashboard')
     else:
-        return render(request, 'home/error.html')
+        return HttpResponseForbidden()

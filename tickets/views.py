@@ -106,7 +106,7 @@ def delete(request, ticket_id):
         ticket.delete()
         return redirect('accounts:dashboard')
     else:
-        return render(request, 'home/error.html')
+        return HttpResponseForbidden()
 
 
 @login_required(login_url='/accounts/login')
@@ -127,7 +127,7 @@ def addpriority(request):
             context={'form': form}
         )
     else:
-        return render(request, 'home/error.html')
+        return HttpResponseForbidden()
 
 
 @login_required(login_url='/accounts/login')
@@ -148,4 +148,4 @@ def addtype(request):
             context={'form': form}
         )
     else:
-        return render(request, 'home/error.html')
+        return HttpResponseForbidden()

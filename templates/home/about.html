@@ -2,8 +2,9 @@
 {% block content %}
 {% load static %}
 <body class="about">
-    <div><i>
+    <div>
         <h1 class="display-4 my-4">About Issue Tracker</h1>
+        <hr/>
         <p class="display-4 " style="font-size: 20pt;color: black ;">
             Issue Tracker is an application to track issues or errors in software. Issue Tracker uses a ticketing system
             to record bugs or other issues in the software development process on a per-project basis. It implements 
@@ -12,7 +13,7 @@
         <p class="display-4 " style="font-size: 20pt;color: black ;">
             The application was built using Django framework and Python with an SQLite database. Development was completed with 
             Visual Studio Code .<br><br>
-            Bug Tracker has four roles that users can be assigned to.
+            Bug Tracker has four roles that users can be assigned to:
             <ul class="left-align-text" style="font-size: 20pt;color: black ;">
                 <li>End User</li>
                 <ul>
@@ -65,7 +66,6 @@
                 <li>Resolved</li>
             </ul>
         </ul>
-        </i>
     </div>
 </body>
 {% endblock %}

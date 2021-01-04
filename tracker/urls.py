@@ -13,6 +13,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf.urls import handler403, handler404
+from home import views
 from django.contrib import admin
 from django.urls import path, include
 
@@ -23,3 +25,6 @@ urlpatterns = [
     path('tickets/', include('tickets.urls')),
     path('admin/', admin.site.urls)
 ]
+
+handler404 = views.handle404
+handler403 = views.handle403

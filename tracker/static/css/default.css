@@ -17,8 +17,8 @@
 	background-repeat: no-repeat;
 	background-size: 100%;
 }
-.jumbotron {
-	background: rgba(122, 121, 121, 0.4);
+.index-jumbotron {
+	background: rgba(31, 30, 30, 0.676);
 }
 .about {
 	background-color: aliceblue;

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<div class="jumbotron mt-n4">
+    <h1><center>View Demo</center></h1>
+    <form method="POST" action="{% url 'home:demo' %}">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-sm-6">
+                <input class="btn btn-outline-secondary btn-lg btn-block mt-5" type="submit" name="Developer" value="Developer" />
+            </div>
+            <div class="col-sm-6">
+                <input class="btn btn-outline-secondary btn-lg btn-block mt-5" type="submit" name="Manager" value="Manager" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <input class="btn btn-outline-secondary btn-lg btn-block mt-3" type="submit" name="EndUser" value="End User" />
+            </div>
+            <div class="col-sm-6">
+                <input class="btn btn-outline-secondary btn-lg btn-block mt-3" type="submit" name="Admin" value="Admin" />
+            </div>
+        </div>
+    </form6
+</div>
+{% endblock %}
