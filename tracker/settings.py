@@ -87,8 +87,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'tracker.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
+# Database connection
 
 DATABASES = {
     'default': {

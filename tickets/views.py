@@ -27,7 +27,6 @@ def create(request):
         context={'form': form}
     )
 
-
 @login_required(login_url='/accounts/login')
 def index(request):
     tickets = Ticket.objects.all()
