@@ -70,8 +70,8 @@ def dashboard(request):
         if request.user.groups.filter(name='project_managers').exists():
             y_tickets = []
             r_tickets = []
-            tic = Ticket.objects.all()
-            projects = Project.objects.all()
+            tic = Ticket.objects.all().order_by('-updated')
+            projects = Project.objects.all().order_by('-updated')
             for ticket in tic:
                 if ticket.owner == request.user:
                     y_tickets.append(ticket)
@@ -87,7 +87,7 @@ def dashboard(request):
         elif request.user.groups.filter(name='developers').exists():
             y_tickets = []
             a_tickets = []
-            tic = Ticket.objects.all()
+            tic = Ticket.objects.all().order_by('-updated')
             project = Project.objects.filter(
                 developers=request.user
             )
@@ -100,10 +100,10 @@ def dashboard(request):
         elif request.user.is_superuser:
             tic_type = TicketType.objects.all()
             tic_priority = TicketPriority.objects.all()
-            project = Project.objects.all()
+            project = Project.objects.all().order_by('-updated')
             return render(request, 'accounts/dashboards/dashboard_admin.html', {'project': project, 'tic_type': tic_type, 'tic_priority': tic_priority})
         tickets = []
-        tic = Ticket.objects.all()
+        tic = Ticket.objects.all().order_by('-updated')
         for ticket in tic:
             if ticket.owner == request.user:
                 tickets.append(ticket)
@@ -158,7 +158,7 @@ def change_password(request):
 @login_required(login_url='/accounts/login')
 def users(request):
     if request.user.is_superuser:
-        userdata = User.objects.all()
+        userdata = User.objects.all().order_by('-date_joined')
         groupdata = Group.objects.all()
         return render(request, 'accounts/users.html', {'userdata': userdata, 'groupdata': groupdata})
     else:
