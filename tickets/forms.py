@@ -67,10 +67,6 @@ class EditTicketForm(ModelForm):
         label='Description',
     )
 
-    attachment = forms.FileField(
-        widget=forms.ClearableFileInput(attrs={'class': 'form-control'}),
-        label='Attachment'
-    )
 
     class Meta:
         model = Ticket
